@@ -18,24 +18,34 @@ func NewAuthService(repo repository.UserRepository, secret string) *AuthService 
 	return &AuthService{repo, secret}
 }
 
-func (s *AuthService) Register(email, password string) (string, error) {
-	hashed, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	user := &model.User{Email: email, PasswordHash: string(hashed)}
-
-	if err := s.userRepo.Create(user); err != nil {
-		return "", err
+func (s *AuthService) Register(email, password string) error {
+	// Проверка на существующего пользователя
+	_, err := s.userRepo.GetByEmail(email)
+	if err == nil {
+		return errors.New("user already exists")
 	}
-	return jwt.GenerateToken(user.ID, s.jwtSecret)
+
+	hashed, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+
+	user := &model.User{
+		Email:        email,
+		PasswordHash: string(hashed),
+	}
+
+	return s.userRepo.Create(user)
 }
 
 func (s *AuthService) Login(email, password string) (string, error) {
 	user, err := s.userRepo.GetByEmail(email)
 	if err != nil {
-		return "", err
+		return "", errors.New("invalid email or password")
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(password)); err != nil {
-		return "", errors.New("invalid credentials")
+		return "", errors.New("invalid email or password")
 	}
 
 	return jwt.GenerateToken(user.ID, s.jwtSecret)
