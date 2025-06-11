@@ -23,4 +23,3 @@ CREATE TABLE transactions (
     comment     TEXT,
     created_at  TIMESTAMPTZ DEFAULT now()
 );
-ы
