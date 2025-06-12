@@ -1,31 +1,36 @@
 package main
 
 import (
-	"log"
-	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"statistic_service/internal/config"
+	"statistic_service/internal/db"
+	"statistic_service/internal/handler"
+	"statistic_service/internal/repository"
+	"statistic_service/internal/service"
+	"statistic_service/internal/middleware"
+	"statistic_service/internal/logger"
 )
 
-func home(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello from Snippetbox"))
-}
-
-// Add a showSnippet handler function.
-func showSnippet(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Display a specific snippet..."))
-}
-
-// Add a createSnippet handler function.
-func createSnippet(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Create a new snippet..."))
-}
 func main() {
-	// Register the two new handler functions and corresponding URL patterns with
-	// the servemux, in exactly the same way that we did before.
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", home)
-	mux.HandleFunc("/snippet", showSnippet)
-	mux.HandleFunc("/snippet/create", createSnippet)
-	log.Println("Starting server on :4000")
-	err := http.ListenAndServe(":4000", mux)
-	log.Fatal(err)
-}
+
+	cfg := config.LoadConfig()
+	database := db.Connect(cfg.DBURL)
+
+	appLogger := logger.SetupLogger(cfg.AppLogFile)
+
+	userRepo := repository.NewUserRepository(database)
+	authService := service.NewAuthService(userRepo, cfg.JWTSecret, logger.SetupLogger(cfg.ServiceLogFile))
+	authHandler := handler.NewAuthHandler(authService, logger.SetupLogger(cfg.HandlerLogFile))
+  authMiddleware := middleware.JWTAuth(cfg.JWTSecret)
+
+	r := gin.Default()
+	
+	r.POST("/register", authHandler.Register)
+	r.POST("/login", authHandler.Login)
+	r.POST("/refresh", authHandler.Refresh)
+	r.GET("/me", authMiddleware, authHandler.GetProfile)
+
+	if err := r.Run(":" + cfg.Port); err != nil {
+		appLogger.Fatalf("Failed to start server: %v", err)
+	}
