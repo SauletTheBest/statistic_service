@@ -23,6 +23,7 @@ func main() {
 	r := gin.Default()
 	r.POST("/register", authHandler.Register)
 	r.POST("/login", authHandler.Login)
+	r.POST("/refresh", authHandler.Refresh)
 
 	r.GET("/me", authMiddleware, authHandler.GetProfile)
 	r.Run(":" + cfg.Port)
