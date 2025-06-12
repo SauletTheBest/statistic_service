@@ -15,9 +15,7 @@ type AuthHandler struct {
 	logger   *logrus.Logger
 }
 
-func NewAuthHandler(s *service.AuthService) *AuthHandler {
-	logger := logrus.New()
-	logger.SetFormatter(&logrus.JSONFormatter{})
+func NewAuthHandler(s *service.AuthService, logger *logrus.Logger) *AuthHandler {
 	return &AuthHandler{
 		service:  s,
 		validate: validator.New(),

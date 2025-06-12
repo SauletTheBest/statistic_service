@@ -19,9 +19,7 @@ type AuthService struct {
 	logger    *logrus.Logger
 }
 
-func NewAuthService(repo repository.UserRepository, secret string) *AuthService {
-	logger := logrus.New()
-	logger.SetFormatter(&logrus.JSONFormatter{})
+func NewAuthService(repo repository.UserRepository, secret string, logger *logrus.Logger) *AuthService {
 	return &AuthService{repo, secret, logger}
 }
 
@@ -62,77 +60,77 @@ func (s *AuthService) Register(email, password string) error {
 }
 
 func (s *AuthService) Login(email, password string) (string, string, error) {
-    s.logger.WithFields(logrus.Fields{
-        "email": email,
-    }).Info("Attempting to login user")
+	s.logger.WithFields(logrus.Fields{
+		"email": email,
+	}).Info("Attempting to login user")
 
-    user, err := s.userRepo.GetByEmail(email)
-    if err != nil {
-        s.logger.Warn("Invalid email or password")
-        return "", "", errors.New("invalid email or password")
-    }
+	user, err := s.userRepo.GetByEmail(email)
+	if err != nil {
+		s.logger.Warn("Invalid email or password")
+		return "", "", errors.New("invalid email or password")
+	}
 
-    if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(password)); err != nil {
-        s.logger.Warn("Invalid email or password")
-        return "", "", errors.New("invalid email or password")
-    }
+	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(password)); err != nil {
+		s.logger.Warn("Invalid email or password")
+		return "", "", errors.New("invalid email or password")
+	}
 
-    accessToken, err := jwt.GenerateToken(user.ID, s.jwtSecret)
-    if err != nil {
-        s.logger.WithError(err).Error("Failed to generate access token")
-        return "", "", err
-    }
+	accessToken, err := jwt.GenerateToken(user.ID, s.jwtSecret)
+	if err != nil {
+		s.logger.WithError(err).Error("Failed to generate access token")
+		return "", "", err
+	}
 
-    refreshToken, err := jwt.GenerateRefreshToken()
-    if err != nil {
-        s.logger.WithError(err).Error("Failed to generate refresh token")
-        return "", "", err
-    }
+	refreshToken, err := jwt.GenerateRefreshToken()
+	if err != nil {
+		s.logger.WithError(err).Error("Failed to generate refresh token")
+		return "", "", err
+	}
 
-    refreshTokenModel := &model.RefreshToken{
-        ID:        uuid.New().String(),
-        UserID:    user.ID,
-        Token:     refreshToken, // Сохраняем оригинальный токен
-        ExpiresAt: time.Now().Add(7 * 24 * time.Hour),
-    }
+	refreshTokenModel := &model.RefreshToken{
+		ID:        uuid.New().String(),
+		UserID:    user.ID,
+		Token:     refreshToken,
+		ExpiresAt: time.Now().Add(7 * 24 * time.Hour),
+	}
 
-    if err := s.userRepo.CreateRefreshToken(refreshTokenModel); err != nil {
-        s.logger.WithError(err).Error("Failed to save refresh token")
-        return "", "", err
-    }
+	if err := s.userRepo.CreateRefreshToken(refreshTokenModel); err != nil {
+		s.logger.WithError(err).Error("Failed to save refresh token")
+		return "", "", err
+	}
 
-    s.logger.Info("User logged in successfully")
-    return accessToken, refreshToken, nil
+	s.logger.Info("User logged in successfully")
+	return accessToken, refreshToken, nil
 }
 
 func (s *AuthService) RefreshToken(refreshToken string) (string, error) {
-    s.logger.Info("Attempting to refresh token")
+	s.logger.Info("Attempting to refresh token")
 
-    token, err := s.userRepo.GetRefreshToken(refreshToken)
-    if err != nil {
-        s.logger.WithError(err).Warn("Invalid refresh token")
-        return "", errors.New("invalid refresh token")
-    }
+	token, err := s.userRepo.GetRefreshToken(refreshToken)
+	if err != nil {
+		s.logger.WithError(err).Warn("Invalid refresh token")
+		return "", errors.New("invalid refresh token")
+	}
 
-    if time.Now().After(token.ExpiresAt) {
-        s.logger.Warn("Refresh token expired")
-        return "", errors.New("refresh token expired")
-    }
+	if time.Now().After(token.ExpiresAt) {
+		s.logger.Warn("Refresh token expired")
+		return "", errors.New("refresh token expired")
+	}
 
-    user, err := s.userRepo.GetByID(token.UserID)
-    if err != nil {
-        s.logger.WithError(err).Error("User not found for refresh token")
-        return "", errors.New("user not found")
-    }
+	user, err := s.userRepo.GetByID(token.UserID)
+	if err != nil {
+		s.logger.WithError(err).Error("User not found for refresh token")
+		return "", errors.New("user not found")
+	}
 
-    accessToken, err := jwt.GenerateToken(user.ID, s.jwtSecret)
-    if err != nil {
-        s.logger.WithError(err).Error("Failed to generate new access token")
-        return "", err
-    }
+	accessToken, err := jwt.GenerateToken(user.ID, s.jwtSecret)
+	if err != nil {
+		s.logger.WithError(err).Error("Failed to generate new access token")
+		return "", err
+	}
 
-    s.logger.Info("Token refreshed successfully")
-    return accessToken, nil
+	s.logger.Info("Token refreshed successfully")
+	return accessToken, nil
 }
 
 func (s *AuthService) GetUserByID(id string) (*model.User, error) {
