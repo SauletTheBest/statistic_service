@@ -4,25 +4,39 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"statistic_service/internal/service"
+	"statistic_service/internal/utils"
 )
 
 type AuthHandler struct {
-	service *service.AuthService
+	service  *service.AuthService
+	validate *validator.Validate // Добавляем валидатор
 }
 
 func NewAuthHandler(s *service.AuthService) *AuthHandler {
-	return &AuthHandler{service: s}
+	return &AuthHandler{
+		service:  s,
+		validate: validator.New(), // Инициализируем валидатор
+	}
+}
+
+type authRequest struct {
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required,min=8"`
 }
 
 func (h *AuthHandler) Register(c *gin.Context) {
-	var req struct {
-		Email    string `json:"email"`
-		Password string `json:"password"`
-	}
+	var req authRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request format"})
+		return
+	}
+
+	// Валидация структуры
+	if err := h.validate.Struct(req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "validation failed", "details": utils.CustomValidationErrors(err.(validator.ValidationErrors))})
 		return
 	}
 
@@ -39,13 +53,17 @@ func (h *AuthHandler) Register(c *gin.Context) {
 }
 
 func (h *AuthHandler) Login(c *gin.Context) {
-	var req struct {
-		Email    string `json:"email"`
-		Password string `json:"password"`
-	}
+	var req authRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request format"})
+		return
+	}
+
+	// Валидация структуры
+	if err := h.validate.Struct(req); err != nil {
+		validationErrors := err.(validator.ValidationErrors)
+		c.JSON(http.StatusBadRequest, gin.H{"error": "validation failed", "details": validationErrors.Error()})
 		return
 	}
 

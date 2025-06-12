@@ -2,11 +2,13 @@ package service
 
 import (
 	"errors"
+	"regexp"
 
-	"golang.org/x/crypto/bcrypt"
 	"statistic_service/internal/model"
 	"statistic_service/internal/repository"
 	"statistic_service/pkg/jwt"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type AuthService struct {
@@ -23,6 +25,11 @@ func (s *AuthService) Register(email, password string) error {
 	_, err := s.userRepo.GetByEmail(email)
 	if err == nil {
 		return errors.New("user already exists")
+	}
+
+	// Дополнительная проверка сложности пароля
+	if !isPasswordComplex(password) {
+		return errors.New("password must contain at least one uppercase letter, one lowercase letter, one number, and one special character")
 	}
 
 	hashed, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
@@ -53,4 +60,16 @@ func (s *AuthService) Login(email, password string) (string, error) {
 
 func (s *AuthService) GetUserByID(id string) (*model.User, error) {
 	return s.userRepo.GetByID(id)
+}
+
+// Проверка сложности пароля
+func isPasswordComplex(password string) bool {
+	if len(password) < 8 {
+		return false
+	}
+	hasUpper := regexp.MustCompile(`[A-Z]`).MatchString(password)
+	hasLower := regexp.MustCompile(`[a-z]`).MatchString(password)
+	hasNumber := regexp.MustCompile(`[0-9]`).MatchString(password)
+	hasSpecial := regexp.MustCompile(`[!@#$%^&*(),.?":{}|<>]`).MatchString(password)
+	return hasUpper && hasLower && hasNumber && hasSpecial
 }
