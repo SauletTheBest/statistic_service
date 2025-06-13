@@ -1,8 +1,9 @@
 package repository
 
 import (
-	"gorm.io/gorm"
 	"statistic_service/internal/model"
+
+	"gorm.io/gorm"
 )
 
 type UserRepository interface {

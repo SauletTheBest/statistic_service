@@ -5,12 +5,13 @@ import (
 	"regexp"
 	"time"
 
-	"github.com/google/uuid"
-	"github.com/sirupsen/logrus"
-	"golang.org/x/crypto/bcrypt"
 	"statistic_service/internal/model"
 	"statistic_service/internal/repository"
 	"statistic_service/pkg/jwt"
+
+	"github.com/google/uuid"
+	"github.com/sirupsen/logrus"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type AuthService struct {
