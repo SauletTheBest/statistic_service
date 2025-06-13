@@ -9,13 +9,13 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/sirupsen/logrus"
 )
-
+// AuthHandler handles authentication-related HTTP requests.
 type AuthHandler struct {
 	service  *service.AuthService
 	validate *validator.Validate
 	logger   *logrus.Logger
 }
-
+// NewAuthHandler creates a new AuthHandler instance.
 func NewAuthHandler(s *service.AuthService, logger *logrus.Logger) *AuthHandler {
 	return &AuthHandler{
 		service:  s,
@@ -32,7 +32,17 @@ type authRequest struct {
 type refreshRequest struct {
 	RefreshToken string `json:"refresh_token" validate:"required"`
 }
-
+// Register godoc
+// @Summary Register a new user
+// @Description Creates a new user account with the provided email and password
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param request body authRequest true "User registration details"
+// @Success 201 {object} map[string]string "status: success, message: user registered successfully"
+// @Failure 400 {object} map[string]string "error: invalid request format or validation failed"
+// @Failure 409 {object} map[string]string "error: user already exists"
+// @Router /register [post]
 func (h *AuthHandler) Register(c *gin.Context) {
 	var req authRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -53,7 +63,17 @@ func (h *AuthHandler) Register(c *gin.Context) {
 	h.logger.Info("User registered successfully")
 	c.JSON(http.StatusCreated, gin.H{"status": "success", "message": "user registered successfully"})
 }
-
+// Login godoc
+// @Summary User login
+// @Description Authenticates a user and returns access and refresh tokens
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param request body authRequest true "User login credentials"
+// @Success 200 {object} map[string]string "access_token: JWT token, refresh_token: refresh token"
+// @Failure 400 {object} map[string]string "error: invalid request format or validation failed"
+// @Failure 401 {object} map[string]string "error: invalid email or password"
+// @Router /login [post]
 func (h *AuthHandler) Login(c *gin.Context) {
 	var req authRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -75,7 +95,17 @@ func (h *AuthHandler) Login(c *gin.Context) {
 	h.logger.Info("User logged in successfully")
 	c.JSON(http.StatusOK, gin.H{"access_token": accessToken, "refresh_token": refreshToken})
 }
-
+// Refresh godoc
+// @Summary Refresh access token
+// @Description Generates a new access token using a valid refresh token
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param request body refreshRequest true "Refresh token"
+// @Success 200 {object} map[string]string "access_token: new JWT token"
+// @Failure 400 {object} map[string]string "error: invalid request format or validation failed"
+// @Failure 401 {object} map[string]string "error: invalid or expired refresh token"
+// @Router /refresh [post]
 func (h *AuthHandler) Refresh(c *gin.Context) {
 	var req refreshRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -97,7 +127,16 @@ func (h *AuthHandler) Refresh(c *gin.Context) {
 	h.logger.Info("Token refreshed successfully")
 	c.JSON(http.StatusOK, gin.H{"access_token": accessToken})
 }
-
+// GetProfile godoc
+// @Summary Get user profile
+// @Description Retrieves the authenticated user's profile information
+// @Tags Auth
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {object} map[string]string "id: user ID, email: user email"
+// @Failure 401 {object} map[string]string "error: User not authenticated"
+// @Failure 404 {object} map[string]string "error: User not found"
+// @Router /me [get]
 func (h *AuthHandler) GetProfile(c *gin.Context) {
 	userID, exists := c.Get("userID")
 	if !exists {
