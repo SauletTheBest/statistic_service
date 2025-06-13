@@ -1,0 +1,8 @@
+{"email":"ernar@gmail.com","level":"info","msg":"Attempting to register user","time":"2025-06-12T12:21:17+05:00"}
+{"level":"warning","msg":"User already exists","time":"2025-06-12T12:21:17+05:00"}
+{"email":"ernar@gmail.com","level":"info","msg":"Attempting to login user","time":"2025-06-12T12:22:00+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-12T12:22:00+05:00"}
+{"level":"info","msg":"Attempting to refresh token","time":"2025-06-12T12:23:19+05:00"}
+{"level":"info","msg":"Token refreshed successfully","time":"2025-06-12T12:23:19+05:00"}
+{"level":"info","msg":"Attempting to refresh token","time":"2025-06-12T12:24:03+05:00"}
+{"level":"info","msg":"Token refreshed successfully","time":"2025-06-12T12:24:03+05:00"}
