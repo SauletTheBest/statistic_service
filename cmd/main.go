@@ -40,7 +40,7 @@ func main() {
 	userRepo := repository.NewUserRepository(database)
 	authService := service.NewAuthService(userRepo, cfg.JWTSecret, logger.SetupLogger(cfg.ServiceLogFile))
 	authHandler := handler.NewAuthHandler(authService, logger.SetupLogger(cfg.HandlerLogFile))
-  authMiddleware := middleware.JWTAuth(cfg.JWTSecret)
+    authMiddleware := middleware.JWTAuth(cfg.JWTSecret)
 
 	// Set up Gin router
 	r := gin.Default()
@@ -58,3 +58,4 @@ func main() {
 	if err := r.Run(":" + cfg.Port); err != nil {
 		appLogger.Fatalf("Failed to start server: %v", err)
 	}
+}
