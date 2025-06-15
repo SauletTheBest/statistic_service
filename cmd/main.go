@@ -5,11 +5,9 @@ import (
 	"statistic_service/internal/db"
 	"statistic_service/internal/handler"
 	"statistic_service/internal/logger"
-	"statistic_service/internal/middleware"
 	"statistic_service/internal/repository"
 	"statistic_service/internal/service"
 	"statistic_service/internal/middleware"
-	"statistic_service/internal/logger"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	_ "statistic_service/docs" // Import the generated docs
@@ -38,20 +36,17 @@ func main() {
 
 	// Initialize logger
 	appLogger := logger.SetupLogger(cfg.AppLogFile)
-  
 	// Initialize repositories, services, handlers, and middleware
 	userRepo := repository.NewUserRepository(database)
 	txRepo := repository.NewTransactionRepository(database)
-  
+
 	authService := service.NewAuthService(userRepo, cfg.JWTSecret, logger.SetupLogger(cfg.ServiceLogFile))
 	txService := service.NewTransactionService(txRepo)
-  
+
+	authMiddleware := middleware.JWTAuth(cfg.JWTSecret)
+
 	authHandler := handler.NewAuthHandler(authService, logger.SetupLogger(cfg.HandlerLogFile))
-  
-  authMiddleware := middleware.JWTAuth(cfg.JWTSecret)
-  
 	txHandler := handler.NewTransactionHandler(txService)
-  
 	statsHandler := handler.NewStatsHandler(txService)
 
 	// Set up Gin router
