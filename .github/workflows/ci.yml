@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: myStrongTestPassword123
+          POSTGRES_DB: mydatabase
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    strategy:
+      matrix:
+        go-version: [ '1.23.4' ] # Adjust to match your go.mod version
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+          cache: true
+          cache-dependency-path: go.sum
+
+      - name: Install dependencies
+        run: go mod download
+
+      - name: Run linters
+        run: |
+          go install honnef.co/go/tools/cmd/staticcheck@latest
+          staticcheck ./...
+          go vet ./...
+
+      - name: Build
+        run: go build -v ./...
+
+      - name: Run tests
+        run: go test -v ./... -race
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          # Этот скрипт ждет, пока PostgreSQL станет доступен.
+          # Это критически важно, так как PostgreSQL может занять некоторое время для старта.
+          for i in $(seq 1 10); do
+            nc -z localhost 5432 && echo "PostgreSQL is up!" && break
+            echo "Waiting for PostgreSQL... ($i/10)"
+            sleep 5
+          done
+          # Убедимся, что он действительно поднялся, иначе тест провалится
+          nc -z localhost 5432 || (echo "PostgreSQL did not start" && exit 1)
+          
+      - name: Run tests- race
+        run: go test -v ./... -race
