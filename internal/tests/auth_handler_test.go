@@ -9,11 +9,12 @@ import (
 	"path/filepath"
 	"statistic_service/internal/config"
 	"statistic_service/internal/handler"
+	"statistic_service/internal/logger"
 	"statistic_service/internal/model"
 	"statistic_service/internal/repository"
 	"statistic_service/internal/service"
-	"statistic_service/internal/logger"
 	"testing"
+
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/postgres"
@@ -22,7 +23,7 @@ import (
 
 func setupTestDB(t *testing.T) *gorm.DB {
 	// Use a test-specific PostgreSQL database
-	dbURL := "postgres://postgres:0000@localhost:5432/mydatabase?sslmode=disable"
+	dbURL := "postgres://postgres:ernar2005@localhost:5432/statistic_service?sslmode=disable"
 
 	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{})
 	if err != nil {

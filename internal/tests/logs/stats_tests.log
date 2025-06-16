@@ -1,0 +1,118 @@
+{"email":"s@t.c","level":"info","msg":"Attempting to register user","time":"2025-06-16T10:25:34+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:25:35+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:25:35+05:00"}
+{"email":"s@t.c","level":"info","msg":"Attempting to login user","time":"2025-06-16T10:25:35+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:25:35+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:25:35+05:00"}
+{"from":null,"level":"info","msg":"Fetching summary stats","time":"2025-06-16T10:25:35+05:00","to":null,"userID":"6e4858df-9aba-43f7-9dd7-8763c6b6c69c"}
+{"expense":0,"income":0,"level":"info","msg":"Summary stats retrieved successfully","time":"2025-06-16T10:25:35+05:00"}
+{"from":null,"level":"info","msg":"Fetching stats by category","time":"2025-06-16T10:25:35+05:00","to":null,"userID":"6e4858df-9aba-43f7-9dd7-8763c6b6c69c"}
+{"categoriesCount":0,"level":"info","msg":"Stats by category retrieved successfully","time":"2025-06-16T10:25:35+05:00"}
+{"email":"s@t.c","level":"info","msg":"Attempting to register user","time":"2025-06-16T10:32:19+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:32:19+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:32:19+05:00"}
+{"email":"s@t.c","level":"info","msg":"Attempting to login user","time":"2025-06-16T10:32:19+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:32:19+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:32:19+05:00"}
+{"from":null,"level":"info","msg":"Fetching summary stats","time":"2025-06-16T10:32:19+05:00","to":null,"userID":"c2765f4a-60d0-46a5-9552-2ad5787c392b"}
+{"expense":0,"income":0,"level":"info","msg":"Summary stats retrieved successfully","time":"2025-06-16T10:32:19+05:00"}
+{"from":null,"level":"info","msg":"Fetching stats by category","time":"2025-06-16T10:32:19+05:00","to":null,"userID":"c2765f4a-60d0-46a5-9552-2ad5787c392b"}
+{"categoriesCount":0,"level":"info","msg":"Stats by category retrieved successfully","time":"2025-06-16T10:32:19+05:00"}
+{"email":"s@t.c","level":"info","msg":"Attempting to register user","time":"2025-06-16T10:35:42+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:35:42+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:35:42+05:00"}
+{"email":"s@t.c","level":"info","msg":"Attempting to login user","time":"2025-06-16T10:35:42+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:35:42+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:35:42+05:00"}
+{"amount":10,"level":"info","msg":"Creating transaction","time":"2025-06-16T10:35:42+05:00","type":"income","userID":"d741e95b-8961-42bd-9762-5861ebbcd60d"}
+{"level":"info","msg":"Transaction created successfully","time":"2025-06-16T10:35:42+05:00"}
+{"amount":3,"level":"info","msg":"Creating transaction","time":"2025-06-16T10:35:42+05:00","type":"expense","userID":"d741e95b-8961-42bd-9762-5861ebbcd60d"}
+{"level":"info","msg":"Transaction created successfully","time":"2025-06-16T10:35:42+05:00"}
+{"from":null,"level":"info","msg":"Fetching summary stats","time":"2025-06-16T10:35:42+05:00","to":null,"userID":"d741e95b-8961-42bd-9762-5861ebbcd60d"}
+{"expense":3,"income":10,"level":"info","msg":"Summary stats retrieved successfully","time":"2025-06-16T10:35:42+05:00"}
+{"from":null,"level":"info","msg":"Fetching stats by category","time":"2025-06-16T10:35:42+05:00","to":null,"userID":"d741e95b-8961-42bd-9762-5861ebbcd60d"}
+{"categoriesCount":0,"level":"info","msg":"Stats by category retrieved successfully","time":"2025-06-16T10:35:42+05:00"}
+{"email":"s@t.c","level":"info","msg":"Attempting to register user","time":"2025-06-16T10:37:42+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:37:42+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:37:42+05:00"}
+{"email":"s@t.c","level":"info","msg":"Attempting to login user","time":"2025-06-16T10:37:42+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:37:42+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:37:42+05:00"}
+{"amount":10,"level":"info","msg":"Creating transaction","time":"2025-06-16T10:37:42+05:00","type":"income","userID":"7fa720e4-cf5b-4ab6-a202-d7c7fe154dbf"}
+{"level":"info","msg":"Transaction created successfully","time":"2025-06-16T10:37:42+05:00"}
+{"amount":3,"level":"info","msg":"Creating transaction","time":"2025-06-16T10:37:42+05:00","type":"expense","userID":"7fa720e4-cf5b-4ab6-a202-d7c7fe154dbf"}
+{"level":"info","msg":"Transaction created successfully","time":"2025-06-16T10:37:42+05:00"}
+{"from":"0001-01-01T00:00:00Z","level":"info","msg":"Fetching summary stats","time":"2025-06-16T10:37:42+05:00","to":"0001-01-01T00:00:00Z","userID":"7fa720e4-cf5b-4ab6-a202-d7c7fe154dbf"}
+{"expense":0,"income":0,"level":"info","msg":"Summary stats retrieved successfully","time":"2025-06-16T10:37:42+05:00"}
+{"from":"0001-01-01T00:00:00Z","level":"info","msg":"Fetching stats by category","time":"2025-06-16T10:37:42+05:00","to":"0001-01-01T00:00:00Z","userID":"7fa720e4-cf5b-4ab6-a202-d7c7fe154dbf"}
+{"categoriesCount":0,"level":"info","msg":"Stats by category retrieved successfully","time":"2025-06-16T10:37:42+05:00"}
+{"email":"s@t.c","level":"info","msg":"Attempting to register user","time":"2025-06-16T10:38:39+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:38:39+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:38:39+05:00"}
+{"email":"s@t.c","level":"info","msg":"Attempting to login user","time":"2025-06-16T10:38:39+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:38:39+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:38:39+05:00"}
+{"amount":10,"level":"info","msg":"Creating transaction","time":"2025-06-16T10:38:39+05:00","type":"income","userID":"729a3a2f-8508-487e-aa30-ca6c5b526809"}
+{"level":"info","msg":"Transaction created successfully","time":"2025-06-16T10:38:39+05:00"}
+{"amount":3,"level":"info","msg":"Creating transaction","time":"2025-06-16T10:38:39+05:00","type":"expense","userID":"729a3a2f-8508-487e-aa30-ca6c5b526809"}
+{"level":"info","msg":"Transaction created successfully","time":"2025-06-16T10:38:39+05:00"}
+{"from":"0001-01-01T00:00:00Z","level":"info","msg":"Fetching summary stats","time":"2025-06-16T10:38:39+05:00","to":"0001-01-01T00:00:00Z","userID":"729a3a2f-8508-487e-aa30-ca6c5b526809"}
+{"expense":0,"income":0,"level":"info","msg":"Summary stats retrieved successfully","time":"2025-06-16T10:38:39+05:00"}
+{"from":"0001-01-01T00:00:00Z","level":"info","msg":"Fetching stats by category","time":"2025-06-16T10:38:39+05:00","to":"0001-01-01T00:00:00Z","userID":"729a3a2f-8508-487e-aa30-ca6c5b526809"}
+{"categoriesCount":0,"level":"info","msg":"Stats by category retrieved successfully","time":"2025-06-16T10:38:39+05:00"}
+{"email":"s@t.c","level":"info","msg":"Attempting to register user","time":"2025-06-16T10:43:26+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:43:26+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:43:26+05:00"}
+{"email":"s@t.c","level":"info","msg":"Attempting to login user","time":"2025-06-16T10:43:26+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:43:26+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:43:26+05:00"}
+{"amount":10,"level":"info","msg":"Creating transaction","time":"2025-06-16T10:43:26+05:00","type":"income","userID":"c6036b15-9bee-4724-b32b-e7efc6e45faf"}
+{"level":"info","msg":"Transaction created successfully","time":"2025-06-16T10:43:26+05:00"}
+{"amount":3,"level":"info","msg":"Creating transaction","time":"2025-06-16T10:43:26+05:00","type":"expense","userID":"c6036b15-9bee-4724-b32b-e7efc6e45faf"}
+{"level":"info","msg":"Transaction created successfully","time":"2025-06-16T10:43:26+05:00"}
+{"from":"0001-01-01T00:00:00Z","level":"info","msg":"Fetching summary stats","time":"2025-06-16T10:43:26+05:00","to":"0001-01-01T00:00:00Z","userID":"c6036b15-9bee-4724-b32b-e7efc6e45faf"}
+{"expense":0,"income":0,"level":"info","msg":"Summary stats retrieved successfully","time":"2025-06-16T10:43:26+05:00"}
+{"from":"0001-01-01T00:00:00Z","level":"info","msg":"Fetching stats by category","time":"2025-06-16T10:43:26+05:00","to":"0001-01-01T00:00:00Z","userID":"c6036b15-9bee-4724-b32b-e7efc6e45faf"}
+{"categoriesCount":0,"level":"info","msg":"Stats by category retrieved successfully","time":"2025-06-16T10:43:26+05:00"}
+{"email":"s@t.c","level":"info","msg":"Attempting to register user","time":"2025-06-16T10:49:00+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:49:00+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:49:00+05:00"}
+{"email":"s@t.c","level":"info","msg":"Attempting to login user","time":"2025-06-16T10:49:00+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:49:00+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:49:00+05:00"}
+{"amount":10,"level":"info","msg":"Creating transaction","time":"2025-06-16T10:49:00+05:00","type":"income","userID":"4516a89f-4c8b-4d60-8388-04037a925c16"}
+{"level":"info","msg":"Transaction created successfully","time":"2025-06-16T10:49:00+05:00"}
+{"amount":3,"level":"info","msg":"Creating transaction","time":"2025-06-16T10:49:00+05:00","type":"expense","userID":"4516a89f-4c8b-4d60-8388-04037a925c16"}
+{"level":"info","msg":"Transaction created successfully","time":"2025-06-16T10:49:00+05:00"}
+{"from":null,"level":"info","msg":"Fetching summary stats","time":"2025-06-16T10:49:00+05:00","to":null,"userID":"4516a89f-4c8b-4d60-8388-04037a925c16"}
+{"expense":3,"income":10,"level":"info","msg":"Summary stats retrieved successfully","time":"2025-06-16T10:49:00+05:00"}
+{"from":null,"level":"info","msg":"Fetching stats by category","time":"2025-06-16T10:49:00+05:00","to":null,"userID":"4516a89f-4c8b-4d60-8388-04037a925c16"}
+{"categoriesCount":0,"level":"info","msg":"Stats by category retrieved successfully","time":"2025-06-16T10:49:00+05:00"}
+{"email":"s@t.c","level":"info","msg":"Attempting to register user","time":"2025-06-16T10:49:57+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:49:58+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:49:58+05:00"}
+{"email":"s@t.c","level":"info","msg":"Attempting to login user","time":"2025-06-16T10:49:58+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:49:58+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:49:58+05:00"}
+{"amount":10,"level":"info","msg":"Creating transaction","time":"2025-06-16T10:49:58+05:00","type":"income","userID":"d57d8946-f424-44e4-a451-4847825aae27"}
+{"level":"info","msg":"Transaction created successfully","time":"2025-06-16T10:49:58+05:00"}
+{"amount":3,"level":"info","msg":"Creating transaction","time":"2025-06-16T10:49:58+05:00","type":"expense","userID":"d57d8946-f424-44e4-a451-4847825aae27"}
+{"level":"info","msg":"Transaction created successfully","time":"2025-06-16T10:49:58+05:00"}
+{"from":null,"level":"info","msg":"Fetching summary stats","time":"2025-06-16T10:49:58+05:00","to":null,"userID":"d57d8946-f424-44e4-a451-4847825aae27"}
+{"expense":3,"income":10,"level":"info","msg":"Summary stats retrieved successfully","time":"2025-06-16T10:49:58+05:00"}
+{"from":null,"level":"info","msg":"Fetching stats by category","time":"2025-06-16T10:49:58+05:00","to":null,"userID":"d57d8946-f424-44e4-a451-4847825aae27"}
+{"categoriesCount":0,"level":"info","msg":"Stats by category retrieved successfully","time":"2025-06-16T10:49:58+05:00"}
+{"email":"s@t.c","level":"info","msg":"Attempting to register user","time":"2025-06-16T10:50:21+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:50:21+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:50:21+05:00"}
+{"email":"s@t.c","level":"info","msg":"Attempting to login user","time":"2025-06-16T10:50:21+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:50:21+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:50:21+05:00"}
+{"amount":10,"level":"info","msg":"Creating transaction","time":"2025-06-16T10:50:21+05:00","type":"income","userID":"ca6ae226-bf47-4ee8-a003-1a01c106fd03"}
+{"level":"info","msg":"Transaction created successfully","time":"2025-06-16T10:50:21+05:00"}
+{"amount":3,"level":"info","msg":"Creating transaction","time":"2025-06-16T10:50:21+05:00","type":"expense","userID":"ca6ae226-bf47-4ee8-a003-1a01c106fd03"}
+{"level":"info","msg":"Transaction created successfully","time":"2025-06-16T10:50:21+05:00"}
+{"from":null,"level":"info","msg":"Fetching summary stats","time":"2025-06-16T10:50:21+05:00","to":null,"userID":"ca6ae226-bf47-4ee8-a003-1a01c106fd03"}
+{"expense":3,"income":10,"level":"info","msg":"Summary stats retrieved successfully","time":"2025-06-16T10:50:21+05:00"}
+{"from":null,"level":"info","msg":"Fetching stats by category","time":"2025-06-16T10:50:21+05:00","to":null,"userID":"ca6ae226-bf47-4ee8-a003-1a01c106fd03"}
+{"categoriesCount":0,"level":"info","msg":"Stats by category retrieved successfully","time":"2025-06-16T10:50:21+05:00"}
