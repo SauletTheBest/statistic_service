@@ -9,12 +9,14 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/sirupsen/logrus"
 )
+
 // AuthHandler handles authentication-related HTTP requests.
 type AuthHandler struct {
 	service  *service.AuthService
 	validate *validator.Validate
 	logger   *logrus.Logger
 }
+
 // NewAuthHandler creates a new AuthHandler instance.
 func NewAuthHandler(s *service.AuthService, logger *logrus.Logger) *AuthHandler {
 	return &AuthHandler{
@@ -32,6 +34,7 @@ type authRequest struct {
 type refreshRequest struct {
 	RefreshToken string `json:"refresh_token" validate:"required"`
 }
+
 // Register godoc
 // @Summary Register a new user
 // @Description Creates a new user account with the provided email and password
@@ -63,6 +66,7 @@ func (h *AuthHandler) Register(c *gin.Context) {
 	h.logger.Info("User registered successfully")
 	c.JSON(http.StatusCreated, gin.H{"status": "success", "message": "user registered successfully"})
 }
+
 // Login godoc
 // @Summary User login
 // @Description Authenticates a user and returns access and refresh tokens
@@ -95,6 +99,7 @@ func (h *AuthHandler) Login(c *gin.Context) {
 	h.logger.Info("User logged in successfully")
 	c.JSON(http.StatusOK, gin.H{"access_token": accessToken, "refresh_token": refreshToken})
 }
+
 // Refresh godoc
 // @Summary Refresh access token
 // @Description Generates a new access token using a valid refresh token
@@ -127,6 +132,7 @@ func (h *AuthHandler) Refresh(c *gin.Context) {
 	h.logger.Info("Token refreshed successfully")
 	c.JSON(http.StatusOK, gin.H{"access_token": accessToken})
 }
+
 // GetProfile godoc
 // @Summary Get user profile
 // @Description Retrieves the authenticated user's profile information

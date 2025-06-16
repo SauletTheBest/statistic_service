@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "statistic_service/docs" // Import the generated docs
 	"statistic_service/internal/config"
 	"statistic_service/internal/db"
 	"statistic_service/internal/handler"
@@ -8,13 +9,12 @@ import (
 	"statistic_service/internal/middleware"
 	"statistic_service/internal/repository"
 	"statistic_service/internal/service"
-	"statistic_service/internal/middleware"
-	"statistic_service/internal/logger"
+
+	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	_ "statistic_service/docs" // Import the generated docs
-	"github.com/gin-gonic/gin"
 )
+
 // Package main provides the entry point for the Statistic Service API.
 // @title Statistic Service API
 // @version 1.0
@@ -31,6 +31,7 @@ import (
 // @name Authorization
 // @description JWT Authorization header using the Bearer scheme. Example: "Bearer {token}"
 func main() {
+
 	// Load configuration
 	cfg := config.LoadConfig()
 	// Initialize database connection
@@ -38,21 +39,21 @@ func main() {
 
 	// Initialize logger
 	appLogger := logger.SetupLogger(cfg.AppLogFile)
-  
+
 	// Initialize repositories, services, handlers, and middleware
 	userRepo := repository.NewUserRepository(database)
 	txRepo := repository.NewTransactionRepository(database)
-  
+
 	authService := service.NewAuthService(userRepo, cfg.JWTSecret, logger.SetupLogger(cfg.ServiceLogFile))
 	txService := service.NewTransactionService(txRepo)
-  
+
 	authHandler := handler.NewAuthHandler(authService, logger.SetupLogger(cfg.HandlerLogFile))
-  
-  authMiddleware := middleware.JWTAuth(cfg.JWTSecret)
-  
-	txHandler := handler.NewTransactionHandler(txService)
-  
-	statsHandler := handler.NewStatsHandler(txService)
+
+	authMiddleware := middleware.JWTAuth(cfg.JWTSecret)
+
+	txHandler := handler.NewTransactionHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
+
+	statsHandler := handler.NewStatsHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
 
 	// Set up Gin router
 	r := gin.Default()
@@ -77,7 +78,7 @@ func main() {
 	r.GET("/stats/summary", authMiddleware, statsHandler.Summary)
 	r.GET("/stats/categories", authMiddleware, statsHandler.ByCategory)
 
-  //Start the server
+	//Start the server
 	if err := r.Run(":" + cfg.Port); err != nil {
 		appLogger.Fatalf("Failed to start server: %v", err)
 	}
