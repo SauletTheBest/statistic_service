@@ -1,4 +1,5 @@
 // Description: Custom error handling for validation errors in Go applications.
+//this package is not used in the codebase, but it can be useful for handling validation errors in a consistent manner across the application.
 package utils
 
 import (

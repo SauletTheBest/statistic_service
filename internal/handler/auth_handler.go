@@ -2,9 +2,7 @@ package handler
 
 import (
 	"net/http"
-
 	"statistic_service/internal/service"
-
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"github.com/sirupsen/logrus"
