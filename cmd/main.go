@@ -6,11 +6,10 @@ import (
 	"statistic_service/internal/db"
 	"statistic_service/internal/handler"
 	"statistic_service/internal/logger"
-	"statistic_service/internal/middleware"
 	"statistic_service/internal/repository"
 	"statistic_service/internal/service"
-
 	"github.com/gin-gonic/gin"
+	"statistic_service/internal/middleware"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -47,6 +46,7 @@ func main() {
 	authService := service.NewAuthService(userRepo, cfg.JWTSecret, logger.SetupLogger(cfg.ServiceLogFile))
 	txService := service.NewTransactionService(txRepo)
 
+
 	authHandler := handler.NewAuthHandler(authService, logger.SetupLogger(cfg.HandlerLogFile))
 
 	authMiddleware := middleware.JWTAuth(cfg.JWTSecret)
@@ -54,6 +54,7 @@ func main() {
 	txHandler := handler.NewTransactionHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
 
 	statsHandler := handler.NewStatsHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
+
 
 	// Set up Gin router
 	r := gin.Default()
