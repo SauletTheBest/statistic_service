@@ -14,7 +14,7 @@ func Connect(url string) *gorm.DB {
 	if err != nil {
 		log.Fatalf("Could not connect to DB: %v", err)
 	}
-
+	
 	err = db.AutoMigrate(&model.User{}, &model.Transaction{}, &model.Category{}, &model.RefreshToken{})
 	if err != nil {
 		log.Fatalf("Failed to migrate database: %v", err)
