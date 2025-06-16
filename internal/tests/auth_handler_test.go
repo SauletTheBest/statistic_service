@@ -22,7 +22,7 @@ import (
 
 func setupTestDB(t *testing.T) *gorm.DB {
 	// Use a test-specific PostgreSQL database
-	dbURL := "postgres://postgres:0000@localhost:5432/mydatabase?sslmode=disable"
+	dbURL := "postgres://postgres:myStrongTestPassword123@localhost:5432/mydatabase?sslmode=disable"
 
 	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{})
 	if err != nil {
