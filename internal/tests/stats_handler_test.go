@@ -24,7 +24,7 @@ import (
 )
 
 func setupStatsDB(t *testing.T) *gorm.DB {
-	dbURL := "postgres://postgres:0000@localhost:5432/statistic_service?sslmode=disable"
+	dbURL := "postgres://postgres:0000@localhost:5432/mydatabase?sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{})
 	if err != nil {
 		t.Fatalf("connect stats db: %v", err)
