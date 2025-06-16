@@ -1,0 +1,36 @@
+{"email":"a@b.c","level":"info","msg":"Attempting to register user","time":"2025-06-16T10:22:24+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:22:24+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:22:24+05:00"}
+{"email":"a@b.c","level":"info","msg":"Attempting to login user","time":"2025-06-16T10:22:24+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:22:24+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:22:24+05:00"}
+{"amount":42.5,"level":"info","msg":"Creating transaction","time":"2025-06-16T10:22:24+05:00","type":"income","userID":"899fcb4e-9bd0-4962-a14c-3b883ba25355"}
+{"level":"info","msg":"Transaction created successfully","time":"2025-06-16T10:22:24+05:00"}
+{"from":null,"level":"info","msg":"Listing transactions","time":"2025-06-16T10:22:24+05:00","to":null,"type":"","userID":"899fcb4e-9bd0-4962-a14c-3b883ba25355"}
+{"count":1,"level":"info","msg":"Transactions listed successfully","time":"2025-06-16T10:22:24+05:00"}
+{"level":"info","msg":"Deleting transaction","time":"2025-06-16T10:22:24+05:00","transactionID":"793d2ab3-9a11-45a7-8dcf-65671bdc4ffc","userID":"899fcb4e-9bd0-4962-a14c-3b883ba25355"}
+{"level":"info","msg":"Transaction deleted successfully","time":"2025-06-16T10:22:24+05:00"}
+{"email":"a@b.c","level":"info","msg":"Attempting to register user","time":"2025-06-16T10:50:22+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:50:22+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:50:22+05:00"}
+{"email":"a@b.c","level":"info","msg":"Attempting to login user","time":"2025-06-16T10:50:22+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:50:22+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:50:22+05:00"}
+{"amount":42.5,"level":"info","msg":"Creating transaction","time":"2025-06-16T10:50:22+05:00","type":"income","userID":"f870ca2d-150a-4e82-8038-04a30d358ae9"}
+{"level":"info","msg":"Transaction created successfully","time":"2025-06-16T10:50:22+05:00"}
+{"from":null,"level":"info","msg":"Listing transactions","time":"2025-06-16T10:50:22+05:00","to":null,"type":"","userID":"f870ca2d-150a-4e82-8038-04a30d358ae9"}
+{"count":1,"level":"info","msg":"Transactions listed successfully","time":"2025-06-16T10:50:22+05:00"}
+{"level":"info","msg":"Deleting transaction","time":"2025-06-16T10:50:22+05:00","transactionID":"99f8ca49-feb3-433d-b7d3-17810e64a04e","userID":"f870ca2d-150a-4e82-8038-04a30d358ae9"}
+{"level":"info","msg":"Transaction deleted successfully","time":"2025-06-16T10:50:22+05:00"}
+{"email":"a@b.c","level":"info","msg":"Attempting to register user","time":"2025-06-16T10:50:42+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:50:42+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T10:50:42+05:00"}
+{"email":"a@b.c","level":"info","msg":"Attempting to login user","time":"2025-06-16T10:50:42+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:50:42+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T10:50:42+05:00"}
+{"amount":42.5,"level":"info","msg":"Creating transaction","time":"2025-06-16T10:50:42+05:00","type":"income","userID":"e468be60-5a9f-4fcd-a026-3fa3a307b041"}
+{"level":"info","msg":"Transaction created successfully","time":"2025-06-16T10:50:42+05:00"}
+{"from":null,"level":"info","msg":"Listing transactions","time":"2025-06-16T10:50:42+05:00","to":null,"type":"","userID":"e468be60-5a9f-4fcd-a026-3fa3a307b041"}
+{"count":1,"level":"info","msg":"Transactions listed successfully","time":"2025-06-16T10:50:42+05:00"}
+{"level":"info","msg":"Deleting transaction","time":"2025-06-16T10:50:42+05:00","transactionID":"ffd31294-acf9-4127-8c6d-3636d11eb5c4","userID":"e468be60-5a9f-4fcd-a026-3fa3a307b041"}
+{"level":"info","msg":"Transaction deleted successfully","time":"2025-06-16T10:50:42+05:00"}

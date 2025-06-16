@@ -9,11 +9,12 @@ import (
 	"path/filepath"
 	"statistic_service/internal/config"
 	"statistic_service/internal/handler"
+	"statistic_service/internal/logger"
 	"statistic_service/internal/model"
 	"statistic_service/internal/repository"
 	"statistic_service/internal/service"
-	"statistic_service/internal/logger"
 	"testing"
+
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/postgres"

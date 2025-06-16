@@ -18,6 +18,23 @@ definitions:
     required:
     - refresh_token
     type: object
+  model.Transaction:
+    properties:
+      amount:
+        type: number
+      category:
+        type: string
+      comment:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      type:
+        type: string
+      userID:
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -168,6 +185,227 @@ paths:
       summary: Register a new user
       tags:
       - Auth
+  /stats/categories:
+    get:
+      consumes:
+      - application/json
+      description: Returns sum of transactions grouped by category for the authenticated
+        user
+      parameters:
+      - description: Start date in RFC3339 format
+        in: query
+        name: date_from
+        type: string
+      - description: End date in RFC3339 format
+        in: query
+        name: date_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: number
+            type: object
+        "401":
+          description: 'error: unauthorized'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get summary by category
+      tags:
+      - Statistics
+  /stats/summary:
+    get:
+      consumes:
+      - application/json
+      description: Returns total income and expenses for the authenticated user
+      parameters:
+      - description: Start date in RFC3339 format
+        in: query
+        name: date_from
+        type: string
+      - description: End date in RFC3339 format
+        in: query
+        name: date_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: number
+            type: object
+        "401":
+          description: 'error: unauthorized'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get transactions summary
+      tags:
+      - Statistics
+  /transactions:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves transactions for the authenticated user, with optional
+        filters
+      parameters:
+      - description: Start date in RFC3339 format
+        in: query
+        name: date_from
+        type: string
+      - description: End date in RFC3339 format
+        in: query
+        name: date_to
+        type: string
+      - description: 'Transaction type: income or expense'
+        in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Transaction'
+            type: array
+        "401":
+          description: 'error: unauthorized'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: List transactions
+      tags:
+      - Transactions
+    post:
+      consumes:
+      - application/json
+      description: Adds a new transaction (expense or income) for the authenticated
+        user
+      parameters:
+      - description: Transaction details
+        in: body
+        name: transaction
+        required: true
+        schema:
+          $ref: '#/definitions/model.Transaction'
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: 'error: bad request'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: 'error: unauthorized'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: 'error: internal server error'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create a new transaction
+      tags:
+      - Transactions
+  /transactions/{id}:
+    delete:
+      description: Deletes an existing transaction by ID for the authenticated user
+      parameters:
+      - description: Transaction ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+        "401":
+          description: 'error: unauthorized'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: 'error: forbidden'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete a transaction
+      tags:
+      - Transactions
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing transaction by ID for the authenticated user
+      parameters:
+      - description: Transaction ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated transaction details
+        in: body
+        name: transaction
+        required: true
+        schema:
+          $ref: '#/definitions/model.Transaction'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: 'error: bad request'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: 'error: unauthorized'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: 'error: forbidden'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update a transaction
+      tags:
+      - Transactions
 securityDefinitions:
   BearerAuth:
     description: 'JWT Authorization header using the Bearer scheme. Example: "Bearer
