@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ernar2005
+      POSTGRES_DB: statistic_service
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - DB_URL=postgres://postgres:ernar2005@db:5432/statistic_service?sslmode=disable
+      - JWT_SECRET=myjwtsecret
+      - PORT=8080
+      - APP_LOG_FILE=logs/app.log
+      - SERVICE_LOG_FILE=logs/service.log
+      - HANDLER_LOG_FILE=logs/handler.log 
+    volumes:
+      - ./logs:/app/logs
+
+volumes:
+  dbdata:
