@@ -6,10 +6,11 @@ import (
 	"statistic_service/internal/db"
 	"statistic_service/internal/handler"
 	"statistic_service/internal/logger"
+	"statistic_service/internal/middleware"
 	"statistic_service/internal/repository"
 	"statistic_service/internal/service"
+
 	"github.com/gin-gonic/gin"
-	"statistic_service/internal/middleware"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -46,7 +47,6 @@ func main() {
 	authService := service.NewAuthService(userRepo, cfg.JWTSecret, logger.SetupLogger(cfg.ServiceLogFile))
 	txService := service.NewTransactionService(txRepo)
 
-
 	authHandler := handler.NewAuthHandler(authService, logger.SetupLogger(cfg.HandlerLogFile))
 
 	authMiddleware := middleware.JWTAuth(cfg.JWTSecret)
@@ -55,6 +55,9 @@ func main() {
 
 	statsHandler := handler.NewStatsHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
 
+	predictHandler := handler.NewPredictHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
+
+	timelineHandler := handler.NewTimelineHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
 
 	// Set up Gin router
 	r := gin.Default()
@@ -78,6 +81,9 @@ func main() {
 	// Statistics
 	r.GET("/stats/summary", authMiddleware, statsHandler.Summary)
 	r.GET("/stats/categories", authMiddleware, statsHandler.ByCategory)
+	r.GET("/predict", authMiddleware, predictHandler.Predict)
+
+	r.GET("/stats/timeline", authMiddleware, timelineHandler.Timeline)
 
 	//Start the server
 	if err := r.Run(":" + cfg.Port); err != nil {
