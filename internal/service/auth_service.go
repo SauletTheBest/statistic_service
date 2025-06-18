@@ -4,11 +4,10 @@ import (
 	"errors"
 	"regexp"
 	"time"
-
 	"statistic_service/internal/model"
 	"statistic_service/internal/repository"
 	"statistic_service/pkg/jwt"
-
+	"statistic_service/pkg/utils"
 	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/crypto/bcrypt"
@@ -104,34 +103,57 @@ func (s *AuthService) Login(email, password string) (string, string, error) {
 	return accessToken, refreshToken, nil
 }
 
-func (s *AuthService) RefreshToken(refreshToken string) (string, error) {
+func (s *AuthService) RefreshToken(refreshToken string) (string, string, error) {
 	s.logger.Info("Attempting to refresh token")
 
 	token, err := s.userRepo.GetRefreshToken(refreshToken)
 	if err != nil {
 		s.logger.WithError(err).Warn("Invalid refresh token")
-		return "", errors.New("invalid refresh token")
+		return "", "", utils.NewInvalidRefreshToken()
 	}
 
 	if time.Now().After(token.ExpiresAt) {
 		s.logger.Warn("Refresh token expired")
-		return "", errors.New("refresh token expired")
+		return "", "", utils.NewRefreshTokenExpired()
 	}
 
 	user, err := s.userRepo.GetByID(token.UserID)
 	if err != nil {
 		s.logger.WithError(err).Error("User not found for refresh token")
-		return "", errors.New("user not found")
+		return "", "", errors.New("user not found")
 	}
 
 	accessToken, err := jwt.GenerateToken(user.ID, s.jwtSecret)
 	if err != nil {
 		s.logger.WithError(err).Error("Failed to generate new access token")
-		return "", err
+		return "", "", err
+	}
+
+	newRefreshToken, err := jwt.GenerateRefreshToken()
+	if err != nil {
+		s.logger.WithError(err).Error("Failed to generate new refresh token")
+		return "", "", err
+	}
+
+	newRefreshTokenModel := &model.RefreshToken{
+		ID:        uuid.New().String(),
+		UserID:    user.ID,
+		Token:     newRefreshToken,
+		ExpiresAt: time.Now().Add(7 * 24 * time.Hour),
+	}
+
+	if err := s.userRepo.CreateRefreshToken(newRefreshTokenModel); err != nil {
+		s.logger.WithError(err).Error("Failed to save new refresh token")
+		return "", "", err
+	}
+
+	if err := s.userRepo.DeleteRefreshToken(refreshToken); err != nil {
+		s.logger.WithError(err).Warn("Failed to delete old refresh token")
+		// Log but don't fail, as new tokens are already issued
 	}
 
 	s.logger.Info("Token refreshed successfully")
-	return accessToken, nil
+	return accessToken, newRefreshToken, nil
 }
 
 func (s *AuthService) GetUserByID(id string) (*model.User, error) {

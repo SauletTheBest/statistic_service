@@ -145,3 +145,96 @@
 {"level":"warning","msg":"Invalid email or password","time":"2025-06-16T10:50:37+05:00"}
 {"error":"invalid email or password","level":"warning","msg":"Login failed","time":"2025-06-16T10:50:37+05:00"}
 {"error":"Key: 'authRequest.Email' Error:Field validation for 'Email' failed on the 'email' tag\nKey: 'authRequest.Password' Error:Field validation for 'Password' failed on the 'min' tag","level":"warning","msg":"Validation failed","time":"2025-06-16T10:50:37+05:00"}
+{"email":"test@example.com","level":"info","msg":"Attempting to register user","time":"2025-06-18T19:47:41+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-18T19:47:41+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-18T19:47:41+05:00"}
+{"email":"test@example.com","level":"info","msg":"Attempting to register user","time":"2025-06-18T19:47:41+05:00"}
+{"level":"warning","msg":"User already exists","time":"2025-06-18T19:47:41+05:00"}
+{"error":"user already exists","level":"warning","msg":"Registration failed","time":"2025-06-18T19:47:41+05:00"}
+{"error":"Key: 'authRequest.Email' Error:Field validation for 'Email' failed on the 'email' tag","level":"warning","msg":"Validation failed","time":"2025-06-18T19:47:41+05:00"}
+{"error":"Key: 'authRequest.Password' Error:Field validation for 'Password' failed on the 'min' tag","level":"warning","msg":"Validation failed","time":"2025-06-18T19:47:41+05:00"}
+{"email":"test@example.com","level":"info","msg":"Attempting to register user","time":"2025-06-18T19:47:41+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-18T19:47:41+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-18T19:47:41+05:00"}
+{"email":"test@example.com","level":"info","msg":"Attempting to login user","time":"2025-06-18T19:47:41+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-18T19:47:42+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-18T19:47:42+05:00"}
+{"email":"test@example.com","level":"info","msg":"Attempting to login user","time":"2025-06-18T19:47:42+05:00"}
+{"level":"warning","msg":"Invalid email or password","time":"2025-06-18T19:47:42+05:00"}
+{"error":"invalid email or password","level":"warning","msg":"Login failed","time":"2025-06-18T19:47:42+05:00"}
+{"email":"invalid@example.com","level":"info","msg":"Attempting to login user","time":"2025-06-18T19:47:42+05:00"}
+{"level":"warning","msg":"Invalid email or password","time":"2025-06-18T19:47:42+05:00"}
+{"error":"invalid email or password","level":"warning","msg":"Login failed","time":"2025-06-18T19:47:42+05:00"}
+{"error":"Key: 'authRequest.Email' Error:Field validation for 'Email' failed on the 'email' tag\nKey: 'authRequest.Password' Error:Field validation for 'Password' failed on the 'min' tag","level":"warning","msg":"Validation failed","time":"2025-06-18T19:47:42+05:00"}
+{"level":"info","msg":"Attempting to refresh token","time":"2025-06-18T19:47:42+05:00"}
+{"level":"info","msg":"Token refreshed successfully","time":"2025-06-18T19:47:42+05:00"}
+{"level":"info","msg":"Token refreshed successfully","time":"2025-06-18T19:47:42+05:00"}
+{"level":"info","msg":"Attempting to refresh token","time":"2025-06-18T19:47:42+05:00"}
+{"level":"warning","msg":"Refresh token expired","time":"2025-06-18T19:47:42+05:00"}
+{"error":"refresh token expired","level":"warning","msg":"Token refresh failed","time":"2025-06-18T19:47:42+05:00"}
+{"level":"info","msg":"Attempting to refresh token","time":"2025-06-18T19:47:42+05:00"}
+{"error":"record not found","level":"warning","msg":"Invalid refresh token","time":"2025-06-18T19:47:42+05:00"}
+{"error":"invalid refresh token","level":"warning","msg":"Token refresh failed","time":"2025-06-18T19:47:42+05:00"}
+{"error":"Key: 'refreshRequest.RefreshToken' Error:Field validation for 'RefreshToken' failed on the 'required' tag","level":"warning","msg":"Validation failed","time":"2025-06-18T19:47:42+05:00"}
+{"email":"test@example.com","level":"info","msg":"Attempting to register user","time":"2025-06-18T19:48:32+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-18T19:48:32+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-18T19:48:32+05:00"}
+{"email":"test@example.com","level":"info","msg":"Attempting to register user","time":"2025-06-18T19:48:32+05:00"}
+{"level":"warning","msg":"User already exists","time":"2025-06-18T19:48:32+05:00"}
+{"error":"user already exists","level":"warning","msg":"Registration failed","time":"2025-06-18T19:48:32+05:00"}
+{"error":"Key: 'authRequest.Email' Error:Field validation for 'Email' failed on the 'email' tag","level":"warning","msg":"Validation failed","time":"2025-06-18T19:48:32+05:00"}
+{"error":"Key: 'authRequest.Password' Error:Field validation for 'Password' failed on the 'min' tag","level":"warning","msg":"Validation failed","time":"2025-06-18T19:48:32+05:00"}
+{"email":"test@example.com","level":"info","msg":"Attempting to register user","time":"2025-06-18T19:48:32+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-18T19:48:32+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-18T19:48:32+05:00"}
+{"email":"test@example.com","level":"info","msg":"Attempting to login user","time":"2025-06-18T19:48:32+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-18T19:48:32+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-18T19:48:32+05:00"}
+{"email":"test@example.com","level":"info","msg":"Attempting to login user","time":"2025-06-18T19:48:32+05:00"}
+{"level":"warning","msg":"Invalid email or password","time":"2025-06-18T19:48:32+05:00"}
+{"error":"invalid email or password","level":"warning","msg":"Login failed","time":"2025-06-18T19:48:32+05:00"}
+{"email":"invalid@example.com","level":"info","msg":"Attempting to login user","time":"2025-06-18T19:48:32+05:00"}
+{"level":"warning","msg":"Invalid email or password","time":"2025-06-18T19:48:32+05:00"}
+{"error":"invalid email or password","level":"warning","msg":"Login failed","time":"2025-06-18T19:48:32+05:00"}
+{"error":"Key: 'authRequest.Email' Error:Field validation for 'Email' failed on the 'email' tag\nKey: 'authRequest.Password' Error:Field validation for 'Password' failed on the 'min' tag","level":"warning","msg":"Validation failed","time":"2025-06-18T19:48:32+05:00"}
+{"level":"info","msg":"Attempting to refresh token","time":"2025-06-18T19:48:33+05:00"}
+{"level":"info","msg":"Token refreshed successfully","time":"2025-06-18T19:48:33+05:00"}
+{"level":"info","msg":"Token refreshed successfully","time":"2025-06-18T19:48:33+05:00"}
+{"level":"info","msg":"Attempting to refresh token","time":"2025-06-18T19:48:33+05:00"}
+{"level":"warning","msg":"Refresh token expired","time":"2025-06-18T19:48:33+05:00"}
+{"error":"refresh token expired","level":"warning","msg":"Token refresh failed","time":"2025-06-18T19:48:33+05:00"}
+{"level":"info","msg":"Attempting to refresh token","time":"2025-06-18T19:48:33+05:00"}
+{"error":"record not found","level":"warning","msg":"Invalid refresh token","time":"2025-06-18T19:48:33+05:00"}
+{"error":"invalid refresh token","level":"warning","msg":"Token refresh failed","time":"2025-06-18T19:48:33+05:00"}
+{"error":"Key: 'refreshRequest.RefreshToken' Error:Field validation for 'RefreshToken' failed on the 'required' tag","level":"warning","msg":"Validation failed","time":"2025-06-18T19:48:33+05:00"}
+{"email":"test@example.com","level":"info","msg":"Attempting to register user","time":"2025-06-18T19:53:00+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-18T19:53:00+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-18T19:53:00+05:00"}
+{"email":"test@example.com","level":"info","msg":"Attempting to register user","time":"2025-06-18T19:53:00+05:00"}
+{"level":"warning","msg":"User already exists","time":"2025-06-18T19:53:00+05:00"}
+{"error":"user already exists","level":"warning","msg":"Registration failed","time":"2025-06-18T19:53:00+05:00"}
+{"error":"Key: 'authRequest.Email' Error:Field validation for 'Email' failed on the 'email' tag","level":"warning","msg":"Validation failed","time":"2025-06-18T19:53:00+05:00"}
+{"error":"Key: 'authRequest.Password' Error:Field validation for 'Password' failed on the 'min' tag","level":"warning","msg":"Validation failed","time":"2025-06-18T19:53:00+05:00"}
+{"email":"test@example.com","level":"info","msg":"Attempting to register user","time":"2025-06-18T19:53:00+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-18T19:53:00+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-18T19:53:00+05:00"}
+{"email":"test@example.com","level":"info","msg":"Attempting to login user","time":"2025-06-18T19:53:00+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-18T19:53:01+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-18T19:53:01+05:00"}
+{"email":"test@example.com","level":"info","msg":"Attempting to login user","time":"2025-06-18T19:53:01+05:00"}
+{"level":"warning","msg":"Invalid email or password","time":"2025-06-18T19:53:01+05:00"}
+{"error":"invalid email or password","level":"warning","msg":"Login failed","time":"2025-06-18T19:53:01+05:00"}
+{"email":"invalid@example.com","level":"info","msg":"Attempting to login user","time":"2025-06-18T19:53:01+05:00"}
+{"level":"warning","msg":"Invalid email or password","time":"2025-06-18T19:53:01+05:00"}
+{"error":"invalid email or password","level":"warning","msg":"Login failed","time":"2025-06-18T19:53:01+05:00"}
+{"error":"Key: 'authRequest.Email' Error:Field validation for 'Email' failed on the 'email' tag\nKey: 'authRequest.Password' Error:Field validation for 'Password' failed on the 'min' tag","level":"warning","msg":"Validation failed","time":"2025-06-18T19:53:01+05:00"}
+{"level":"info","msg":"Attempting to refresh token","time":"2025-06-18T19:53:01+05:00"}
+{"level":"info","msg":"Token refreshed successfully","time":"2025-06-18T19:53:01+05:00"}
+{"level":"info","msg":"Token refreshed successfully","time":"2025-06-18T19:53:01+05:00"}
+{"level":"info","msg":"Attempting to refresh token","time":"2025-06-18T19:53:01+05:00"}
+{"level":"warning","msg":"Refresh token expired","time":"2025-06-18T19:53:01+05:00"}
+{"error":"refresh token expired","level":"warning","msg":"Token refresh failed","time":"2025-06-18T19:53:01+05:00"}
+{"level":"info","msg":"Attempting to refresh token","time":"2025-06-18T19:53:01+05:00"}
+{"error":"record not found","level":"warning","msg":"Invalid refresh token","time":"2025-06-18T19:53:01+05:00"}
+{"error":"invalid refresh token","level":"warning","msg":"Token refresh failed","time":"2025-06-18T19:53:01+05:00"}
+{"error":"Key: 'refreshRequest.RefreshToken' Error:Field validation for 'RefreshToken' failed on the 'required' tag","level":"warning","msg":"Validation failed","time":"2025-06-18T19:53:01+05:00"}
