@@ -2,7 +2,6 @@ package repository
 
 import (
 	"statistic_service/internal/model"
-
 	"gorm.io/gorm"
 )
 
@@ -12,6 +11,7 @@ type UserRepository interface {
 	GetByID(id string) (*model.User, error)
 	CreateRefreshToken(token *model.RefreshToken) error
 	GetRefreshToken(token string) (*model.RefreshToken, error)
+	DeleteRefreshToken(token string) error
 }
 
 type userRepository struct {
@@ -46,4 +46,8 @@ func (r *userRepository) GetRefreshToken(token string) (*model.RefreshToken, err
 	var refreshToken model.RefreshToken
 	err := r.db.Where("token = ?", token).First(&refreshToken).Error
 	return &refreshToken, err
+}
+
+func (r *userRepository) DeleteRefreshToken(token string) error {
+	return r.db.Where("token = ?", token).Delete(&model.RefreshToken{}).Error
 }
