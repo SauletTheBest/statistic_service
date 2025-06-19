@@ -6,3 +6,75 @@
 {"level":"info","msg":"Token refreshed successfully","time":"2025-06-12T12:23:19+05:00"}
 {"level":"info","msg":"Attempting to refresh token","time":"2025-06-12T12:24:03+05:00"}
 {"level":"info","msg":"Token refreshed successfully","time":"2025-06-12T12:24:03+05:00"}
+{"email":"era@example.com","level":"info","msg":"Attempting to register user","time":"2025-06-13T11:07:53+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-13T11:07:53+05:00"}
+{"email":"qwe@gmail.com","level":"info","msg":"Attempting to login user","time":"2025-06-13T11:08:02+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-13T11:08:02+05:00"}
+{"level":"info","msg":"Attempting to refresh token","time":"2025-06-13T11:09:25+05:00"}
+{"level":"info","msg":"Token refreshed successfully","time":"2025-06-13T11:09:25+05:00"}
+{"email":"qwe@gmail.com","level":"info","msg":"Attempting to login user","time":"2025-06-13T12:06:24+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-13T12:06:25+05:00"}
+{"level":"info","msg":"Attempting to refresh token","time":"2025-06-13T12:07:08+05:00"}
+{"level":"info","msg":"Token refreshed successfully","time":"2025-06-13T12:07:08+05:00"}
+{"level":"info","msg":"Attempting to refresh token","time":"2025-06-13T12:07:21+05:00"}
+{"level":"info","msg":"Token refreshed successfully","time":"2025-06-13T12:07:21+05:00"}
+{"level":"info","msg":"Attempting to refresh token","time":"2025-06-13T12:09:46+05:00"}
+{"level":"info","msg":"Token refreshed successfully","time":"2025-06-13T12:09:46+05:00"}
+{"email":"wer@gmail.com","level":"info","msg":"Attempting to register user","time":"2025-06-13T13:00:21+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-13T13:00:21+05:00"}
+{"email":"wer@gmail.com","level":"info","msg":"Attempting to login user","time":"2025-06-13T13:01:00+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-13T13:01:00+05:00"}
+{"level":"info","msg":"Attempting to refresh token","time":"2025-06-13T13:03:42+05:00"}
+{"level":"info","msg":"Token refreshed successfully","time":"2025-06-13T13:03:42+05:00"}
+{"email":"wer@gmail.com","level":"info","msg":"Attempting to login user","time":"2025-06-13T13:27:21+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-13T13:27:21+05:00"}
+{"email":"wer@gmail.com","level":"info","msg":"Attempting to login user","time":"2025-06-13T13:27:23+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-13T13:27:23+05:00"}
+{"email":"qwe@gmail.com","level":"info","msg":"Attempting to login user","time":"2025-06-13T14:12:38+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-13T14:12:38+05:00"}
+{"email":"qwe@gmail.com","level":"info","msg":"Attempting to login user","time":"2025-06-16T09:26:54+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T09:26:54+05:00"}
+{"email":"qwe1@gmail.com","level":"info","msg":"Attempting to login user","time":"2025-06-16T12:13:32+05:00"}
+{"level":"warning","msg":"Invalid email or password","time":"2025-06-16T12:13:32+05:00"}
+{"email":"qwe@gmail.com","level":"info","msg":"Attempting to login user","time":"2025-06-16T12:13:42+05:00"}
+{"level":"warning","msg":"Invalid email or password","time":"2025-06-16T12:13:42+05:00"}
+{"email":"qwe@gmail.com","level":"info","msg":"Attempting to login user","time":"2025-06-16T12:13:45+05:00"}
+{"level":"warning","msg":"Invalid email or password","time":"2025-06-16T12:13:45+05:00"}
+{"email":"era@example.com","level":"info","msg":"Attempting to register user","time":"2025-06-16T12:13:51+05:00"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-16T12:13:51+05:00"}
+{"email":"era@gmail.com","level":"info","msg":"Attempting to login user","time":"2025-06-16T12:14:00+05:00"}
+{"level":"warning","msg":"Invalid email or password","time":"2025-06-16T12:14:00+05:00"}
+{"email":"era@gmail.com","level":"info","msg":"Attempting to login user","time":"2025-06-16T12:14:02+05:00"}
+{"level":"warning","msg":"Invalid email or password","time":"2025-06-16T12:14:02+05:00"}
+{"email":"era@gmail.com","level":"info","msg":"Attempting to login user","time":"2025-06-16T12:14:03+05:00"}
+{"level":"warning","msg":"Invalid email or password","time":"2025-06-16T12:14:03+05:00"}
+{"email":"era@gmail.com","level":"info","msg":"Attempting to login user","time":"2025-06-16T12:14:05+05:00"}
+{"level":"warning","msg":"Invalid email or password","time":"2025-06-16T12:14:05+05:00"}
+{"email":"era@example.com","level":"info","msg":"Attempting to login user","time":"2025-06-16T12:14:25+05:00"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-16T12:14:25+05:00"}
+{"email":"qwe111@gmail.com","level":"info","msg":"Attempting to register user","time":"2025-06-17T07:35:44Z"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-17T07:35:44Z"}
+{"email":"qwe111@gmail.com","level":"info","msg":"Attempting to login user","time":"2025-06-17T07:36:30Z"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-17T07:36:30Z"}
+{"email":"qwe111@gmail.com","level":"info","msg":"Attempting to login user","time":"2025-06-17T07:36:35Z"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-17T07:36:35Z"}
+{"level":"info","msg":"Attempting to refresh token","time":"2025-06-17T07:39:04Z"}
+{"level":"info","msg":"Token refreshed successfully","time":"2025-06-17T07:39:04Z"}
+{"level":"info","msg":"Attempting to refresh token","time":"2025-06-17T07:39:05Z"}
+{"level":"info","msg":"Token refreshed successfully","time":"2025-06-17T07:39:05Z"}
+{"email":"qwe@gmail.com","level":"info","msg":"Attempting to login user","time":"2025-06-18T06:13:12Z"}
+{"level":"warning","msg":"Invalid email or password","time":"2025-06-18T06:13:12Z"}
+{"email":"qwe@gmail.com","level":"info","msg":"Attempting to register user","time":"2025-06-18T06:13:53Z"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-18T06:13:53Z"}
+{"email":"qwe@gmail.com","level":"info","msg":"Attempting to login user","time":"2025-06-18T06:14:00Z"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-18T06:14:00Z"}
+{"email":"era@example.com","level":"info","msg":"Attempting to login user","time":"2025-06-18T09:07:25Z"}
+{"level":"warning","msg":"Invalid email or password","time":"2025-06-18T09:07:25Z"}
+{"email":"era@example.com","level":"info","msg":"Attempting to register user","time":"2025-06-18T09:07:32Z"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-18T09:07:32Z"}
+{"email":"era@example.com","level":"info","msg":"Attempting to login user","time":"2025-06-18T09:07:36Z"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-18T09:07:36Z"}
+{"level":"info","msg":"Attempting to refresh token","time":"2025-06-18T09:07:50Z"}
+{"level":"info","msg":"Token refreshed successfully","time":"2025-06-18T09:07:50Z"}
+{"level":"info","msg":"Attempting to refresh token","time":"2025-06-18T09:10:02Z"}
+{"level":"info","msg":"Token refreshed successfully","time":"2025-06-18T09:10:02Z"}

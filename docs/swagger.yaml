@@ -113,6 +113,44 @@ paths:
       summary: Get user profile
       tags:
       - Auth
+  /predict:
+    get:
+      consumes:
+      - application/json
+      description: Calculates the expected total expenses or income for the next month
+        based on the current month's average
+      parameters:
+      - description: 'Transaction type: expense or income'
+        in: query
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: number
+            type: object
+        "400":
+          description: Invalid type
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Predict next month's expenses or income
+      tags:
+      - Statistics
   /refresh:
     post:
       consumes:
@@ -254,6 +292,49 @@ paths:
       summary: Get transactions summary
       tags:
       - Statistics
+  /stats/timeline:
+    get:
+      consumes:
+      - application/json
+      description: Returns a map of daily totals over a specified time range (week
+        or month) for graph/chart usage
+      parameters:
+      - default: expense
+        description: 'Transaction type: expense or income'
+        in: query
+        name: type
+        type: string
+      - default: month
+        description: 'Time range: week or month'
+        in: query
+        name: range
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: number
+            type: object
+        "400":
+          description: Invalid range
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get timeline of expenses or income
+      tags:
+      - Statistics
   /transactions:
     get:
       consumes:
@@ -308,6 +389,8 @@ paths:
       produces:
       - application/json
       responses:
+        "201":
+          description: Created
         "400":
           description: 'error: bad request'
           schema:
