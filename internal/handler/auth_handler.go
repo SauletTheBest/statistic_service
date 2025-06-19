@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"github.com/sirupsen/logrus"
+	"statistic_service/pkg/utils"
 )
 
 // AuthHandler handles authentication-related HTTP requests.
@@ -41,7 +42,7 @@ type refreshRequest struct {
 // @Produce json
 // @Param request body authRequest true "User registration details"
 // @Success 201 {object} map[string]string "status: success, message: user registered successfully"
-// @Failure 400 {object} map[string]string "error: invalid request format or validation failed"
+// @Failure 400 {object} map[string]interface{} "error: validation failed, details: list of errors"
 // @Failure 409 {object} map[string]string "error: user already exists"
 // @Router /register [post]
 func (h *AuthHandler) Register(c *gin.Context) {
@@ -52,6 +53,12 @@ func (h *AuthHandler) Register(c *gin.Context) {
 		return
 	}
 	if err := h.validate.Struct(req); err != nil {
+		if validationErrs, ok := err.(validator.ValidationErrors); ok {
+			messages := utils.CustomValidationErrors(validationErrs)
+			h.logger.WithError(err).Warn("Validation failed")
+			c.JSON(http.StatusBadRequest, gin.H{"error": "validation failed", "details": messages})
+			return
+		}
 		h.logger.WithError(err).Warn("Validation failed")
 		c.JSON(http.StatusBadRequest, gin.H{"error": "validation failed", "details": err.Error()})
 		return
@@ -73,7 +80,7 @@ func (h *AuthHandler) Register(c *gin.Context) {
 // @Produce json
 // @Param request body authRequest true "User login credentials"
 // @Success 200 {object} map[string]string "access_token: JWT token, refresh_token: refresh token"
-// @Failure 400 {object} map[string]string "error: invalid request format or validation failed"
+// @Failure 400 {object} map[string]interface{} "error: validation failed, details: list of errors"
 // @Failure 401 {object} map[string]string "error: invalid email or password"
 // @Router /login [post]
 func (h *AuthHandler) Login(c *gin.Context) {
@@ -84,6 +91,12 @@ func (h *AuthHandler) Login(c *gin.Context) {
 		return
 	}
 	if err := h.validate.Struct(req); err != nil {
+		if validationErrs, ok := err.(validator.ValidationErrors); ok {
+			messages := utils.CustomValidationErrors(validationErrs)
+			h.logger.WithError(err).Warn("Validation failed")
+			c.JSON(http.StatusBadRequest, gin.H{"error": "validation failed", "details": messages})
+			return
+		}
 		h.logger.WithError(err).Warn("Validation failed")
 		c.JSON(http.StatusBadRequest, gin.H{"error": "validation failed", "details": err.Error()})
 		return
@@ -100,14 +113,14 @@ func (h *AuthHandler) Login(c *gin.Context) {
 
 // Refresh godoc
 // @Summary Refresh access token
-// @Description Generates a new access token using a valid refresh token
+// @Description Generates a new access token and refresh token using a valid refresh token
 // @Tags Auth
 // @Accept json
 // @Produce json
 // @Param request body refreshRequest true "Refresh token"
-// @Success 200 {object} map[string]string "access_token: new JWT token"
-// @Failure 400 {object} map[string]string "error: invalid request format or validation failed"
-// @Failure 401 {object} map[string]string "error: invalid or expired refresh token"
+// @Success 200 {object} map[string]string "access_token: new JWT token, refresh_token: new refresh token"
+// @Failure 400 {object} map[string]interface{} "error: validation failed, details: list of errors"
+// @Failure 401 {object} map[string]interface{} "error: invalid or expired refresh token, type: error type"
 // @Router /refresh [post]
 func (h *AuthHandler) Refresh(c *gin.Context) {
 	var req refreshRequest
@@ -117,18 +130,28 @@ func (h *AuthHandler) Refresh(c *gin.Context) {
 		return
 	}
 	if err := h.validate.Struct(req); err != nil {
+		if validationErrs, ok := err.(validator.ValidationErrors); ok {
+			messages := utils.CustomValidationErrors(validationErrs)
+			h.logger.WithError(err).Warn("Validation failed")
+			c.JSON(http.StatusBadRequest, gin.H{"error": "validation failed", "details": messages})
+			return
+		}
 		h.logger.WithError(err).Warn("Validation failed")
 		c.JSON(http.StatusBadRequest, gin.H{"error": "validation failed", "details": err.Error()})
 		return
 	}
-	accessToken, err := h.service.RefreshToken(req.RefreshToken)
+	accessToken, newRefreshToken, err := h.service.RefreshToken(req.RefreshToken)
 	if err != nil {
 		h.logger.WithError(err).Warn("Token refresh failed")
-		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		if appErr, ok := err.(*utils.AppError); ok {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": appErr.Message, "type": string(appErr.Type)})
+		} else {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		}
 		return
 	}
 	h.logger.Info("Token refreshed successfully")
-	c.JSON(http.StatusOK, gin.H{"access_token": accessToken})
+	c.JSON(http.StatusOK, gin.H{"access_token": accessToken, "refresh_token": newRefreshToken})
 }
 
 // GetProfile godoc

@@ -70,10 +70,9 @@ paths:
               type: string
             type: object
         "400":
-          description: 'error: invalid request format or validation failed'
+          description: 'error: validation failed, details: list of errors'
           schema:
-            additionalProperties:
-              type: string
+            additionalProperties: true
             type: object
         "401":
           description: 'error: invalid email or password'
@@ -155,7 +154,8 @@ paths:
     post:
       consumes:
       - application/json
-      description: Generates a new access token using a valid refresh token
+      description: Generates a new access token and refresh token using a valid refresh
+        token
       parameters:
       - description: Refresh token
         in: body
@@ -167,22 +167,20 @@ paths:
       - application/json
       responses:
         "200":
-          description: 'access_token: new JWT token'
+          description: 'access_token: new JWT token, refresh_token: new refresh token'
           schema:
             additionalProperties:
               type: string
             type: object
         "400":
-          description: 'error: invalid request format or validation failed'
+          description: 'error: validation failed, details: list of errors'
           schema:
-            additionalProperties:
-              type: string
+            additionalProperties: true
             type: object
         "401":
-          description: 'error: invalid or expired refresh token'
+          description: 'error: invalid or expired refresh token, type: error type'
           schema:
-            additionalProperties:
-              type: string
+            additionalProperties: true
             type: object
       summary: Refresh access token
       tags:
@@ -209,10 +207,9 @@ paths:
               type: string
             type: object
         "400":
-          description: 'error: invalid request format or validation failed'
+          description: 'error: validation failed, details: list of errors'
           schema:
-            additionalProperties:
-              type: string
+            additionalProperties: true
             type: object
         "409":
           description: 'error: user already exists'

@@ -58,12 +58,10 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "error: invalid request format or validation failed",
+                        "description": "error: validation failed, details: list of errors",
                         "schema": {
                             "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "additionalProperties": true
                         }
                     },
                     "401": {
@@ -184,7 +182,7 @@ const docTemplate = `{
         },
         "/refresh": {
             "post": {
-                "description": "Generates a new access token using a valid refresh token",
+                "description": "Generates a new access token and refresh token using a valid refresh token",
                 "consumes": [
                     "application/json"
                 ],
@@ -208,7 +206,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "access_token: new JWT token",
+                        "description": "access_token: new JWT token, refresh_token: new refresh token",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -217,21 +215,17 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "error: invalid request format or validation failed",
+                        "description": "error: validation failed, details: list of errors",
                         "schema": {
                             "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "additionalProperties": true
                         }
                     },
                     "401": {
-                        "description": "error: invalid or expired refresh token",
+                        "description": "error: invalid or expired refresh token, type: error type",
                         "schema": {
                             "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "additionalProperties": true
                         }
                     }
                 }
@@ -272,12 +266,10 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "error: invalid request format or validation failed",
+                        "description": "error: validation failed, details: list of errors",
                         "schema": {
                             "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "additionalProperties": true
                         }
                     },
                     "409": {
