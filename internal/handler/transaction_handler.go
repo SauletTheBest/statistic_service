@@ -9,6 +9,7 @@ import (
 	"statistic_service/internal/service"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 )
 
@@ -35,21 +36,32 @@ func NewTransactionHandler(s service.TransactionService, logger *logrus.Logger) 
 // @Security BearerAuth
 // @Router /transactions [post]
 func (h *TransactionHandler) Create(c *gin.Context) {
-	var input model.Transaction
-	if err := c.BindJSON(&input); err != nil {
-		h.logger.WithError(err).Warn("Invalid transaction payload")
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request format"})
+	walletID, err := uuid.Parse(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid wallet ID"})
 		return
 	}
-	userID := c.GetString("userID")
-	h.logger.WithFields(logrus.Fields{"userID": userID, "amount": input.Amount, "type": input.Type}).Info("Creating transaction")
-	if err := h.svc.Create(userID, &input); err != nil {
-		h.logger.WithError(err).Error("Failed to create transaction")
+	userIDStr := c.GetString("userID")
+	userID, err := uuid.Parse(userIDStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid user ID"})
+		return
+	}
+	var req struct {
+		Amount     float64    `json:"amount"`
+		CategoryID *uuid.UUID `json:"category_id"`
+		Comment    string     `json:"comment"`
+	}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid input"})
+		return
+	}
+	tx, err := h.svc.Create(userID, walletID, req.Amount, req.CategoryID, req.Comment)
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	h.logger.Info("Transaction created successfully")
-	c.Status(http.StatusCreated)
+	c.JSON(http.StatusCreated, tx)
 }
 
 // List godoc
