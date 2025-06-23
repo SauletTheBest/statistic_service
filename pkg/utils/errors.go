@@ -3,6 +3,8 @@ package utils
 
 import (
 	"fmt"
+
+	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 )
 
@@ -52,4 +54,9 @@ func CustomValidationErrors(errs validator.ValidationErrors) []string {
 		}
 	}
 	return messages
+}
+
+// SendErrorResponse отправляет стандартизированный ответ об ошибке.
+func SendErrorResponse(c *gin.Context, statusCode int, message string) {
+	c.JSON(statusCode, gin.H{"error": message})
 }
