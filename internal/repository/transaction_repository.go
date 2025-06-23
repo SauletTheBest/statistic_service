@@ -5,7 +5,6 @@ import (
 
 	"statistic_service/internal/model"
 
-	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -115,10 +114,4 @@ func (r *transactionRepository) ByCategory(userID string, from, to *time.Time) (
 		results[category] = sum
 	}
 	return results, nil
-}
-
-func (r *transactionRepository) ListByWallet(walletID uuid.UUID) ([]model.Transaction, error) {
-	var txs []model.Transaction
-	err := r.db.Where("wallet_id = ?", walletID).Find(&txs).Error
-	return txs, err
 }

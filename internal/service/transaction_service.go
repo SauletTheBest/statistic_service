@@ -4,12 +4,10 @@ import (
 	"statistic_service/internal/model"
 	"statistic_service/internal/repository"
 	"time"
-
-	"github.com/google/uuid"
 )
 
 type TransactionService interface {
-	Create(userID uuid.UUID, walletID uuid.UUID, amount float64, categoryID *uuid.UUID, comment string) (*model.Transaction, error)
+	Create(userID string, input *model.Transaction) error
 	List(userID string, from, to *time.Time, txType string) ([]model.Transaction, error)
 	Update(id string, userID string, input *model.Transaction) error
 	Delete(id, userID string) error
@@ -25,23 +23,11 @@ func NewTransactionService(r repository.TransactionRepository) TransactionServic
 	return &txService{r}
 }
 
-func (s *txService) Create(userID uuid.UUID, walletID uuid.UUID, amount float64, categoryID *uuid.UUID, comment string) (*model.Transaction, error) {
-	tx := &model.Transaction{
-		ID:         uuid.New().String(),
-		UserID:     userID.String(),
-		WalletID:   &walletID,
-		Amount:     amount,
-		CategoryID: categoryID,
-		Comment:    comment,
-		Type:       "expense", // если нужно — передавай как аргумент
-		CreatedAt:  time.Now(),
-	}
-	if err := s.repo.Create(tx); err != nil {
-		return nil, err
-	}
-	return tx, nil
+func (s *txService) Create(userID string, input *model.Transaction) error {
+	input.UserID = userID
+	input.CreatedAt = time.Now()
+	return s.repo.Create(input)
 }
-
 func (s *txService) List(userID string, from, to *time.Time, txType string) ([]model.Transaction, error) {
 	return s.repo.GetByUser(userID, from, to, txType)
 }

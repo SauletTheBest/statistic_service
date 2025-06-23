@@ -43,22 +43,21 @@ func main() {
 	// Initialize repositories, services, handlers, and middleware
 	userRepo := repository.NewUserRepository(database)
 	txRepo := repository.NewTransactionRepository(database)
-	walletRepo := repository.NewWalletRepository(database)
-	categoryRepo := repository.NewCategoryRepository(database)
 
 	authService := service.NewAuthService(userRepo, cfg.JWTSecret, logger.SetupLogger(cfg.ServiceLogFile))
 	txService := service.NewTransactionService(txRepo)
-	walletService := service.NewWalletService(walletRepo)
-	authMiddleware := middleware.JWTAuth(cfg.JWTSecret)
-	categoryService := service.NewCategoryService(categoryRepo, logger.SetupLogger(cfg.HandlerLogFile))
 
 	authHandler := handler.NewAuthHandler(authService, logger.SetupLogger(cfg.HandlerLogFile))
+
+	authMiddleware := middleware.JWTAuth(cfg.JWTSecret)
+
 	txHandler := handler.NewTransactionHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
+
 	statsHandler := handler.NewStatsHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
+
 	predictHandler := handler.NewPredictHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
+
 	timelineHandler := handler.NewTimelineHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
-	walletHandler := handler.NewWalletHandler(walletService)
-	categoryHandler := handler.NewCategoryHandler(categoryService, logger.SetupLogger(cfg.HandlerLogFile))
 
 	// Set up Gin router
 	r := gin.Default()
@@ -67,7 +66,6 @@ func main() {
 	r.POST("/register", authHandler.Register)
 	r.POST("/login", authHandler.Login)
 	r.POST("/refresh", authHandler.Refresh)
-
 	// Protected
 	r.GET("/me", authMiddleware, authHandler.GetProfile)
 
@@ -75,6 +73,7 @@ func main() {
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// Transactions
+	r.POST("/transactions", authMiddleware, txHandler.Create)
 	r.GET("/transactions", authMiddleware, txHandler.List)
 	r.PUT("/transactions/:id", authMiddleware, txHandler.Update)
 	r.DELETE("/transactions/:id", authMiddleware, txHandler.Delete)
@@ -84,22 +83,7 @@ func main() {
 	r.GET("/stats/categories", authMiddleware, statsHandler.ByCategory)
 	r.GET("/predict", authMiddleware, predictHandler.Predict)
 
-	// Graph
 	r.GET("/stats/timeline", authMiddleware, timelineHandler.Timeline)
-
-	//Category
-	r.POST("/categories", authMiddleware, categoryHandler.CreateCategory)
-	r.GET("/categories/:id", authMiddleware, categoryHandler.GetCategoryByID)
-	r.GET("/categories", authMiddleware, categoryHandler.ListCategories)
-	r.PUT("/categories/:id", authMiddleware, categoryHandler.UpdateCategory)
-	r.DELETE("/categories/:id", authMiddleware, categoryHandler.DeleteCategory)
-
-	//Wallets
-	r.POST("/wallets", authMiddleware, walletHandler.Create)
-	r.POST("/wallets/:id/invite", authMiddleware, walletHandler.Invite)
-	r.GET("/wallets/:id/transactions", authMiddleware, walletHandler.GetTransactions)
-	r.GET("/wallets/:id/members", authMiddleware, walletHandler.GetMembers)
-	r.POST("/wallets/:id/transactions", authMiddleware, walletHandler.CreateTransaction)
 
 	//Start the server
 	if err := r.Run(":" + cfg.Port); err != nil {

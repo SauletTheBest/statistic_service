@@ -1,21 +1,17 @@
-// internal/model/Transaction.go
 package model
 
 import (
 	"time"
-
-	"github.com/google/uuid"
 )
 
 type Transaction struct {
-	ID          uuid.UUID `json:"id" gorm:"type:uuid;primaryKey"`
-	UserID      uuid.UUID `json:"user_id"`
-	Amount      float64   `json:"amount"`
-	Type        string    `json:"type"` // "income" or "expense"
-	Description string    `json:"description"`
-	// Старое поле: Category    string    `json:"category"`
-	CategoryID uuid.UUID `json:"category_id"`                           // <-- НОВОЕ ПОЛЕ
-	Category   Category  `json:"category" gorm:"foreignKey:CategoryID"` // Связь с моделью Category
-	Date       time.Time `json:"date"`
-	CreatedAt  time.Time `json:"created_at"`
+	ID        string    `gorm:"primaryKey;type:uuid;default:gen_random_uuid()"`
+	UserID    string    `gorm:"type:uuid;not null;index"`
+	Amount    float64   `gorm:"not null"`
+	Type      string    `gorm:"type:text;not null"`
+	Category  string    `gorm:"type:text"`
+	Comment   string    `gorm:"type:text"`
+	CreatedAt time.Time `gorm:"autoCreateTime"`
 }
+
+//ewdwdqwdqdqw
