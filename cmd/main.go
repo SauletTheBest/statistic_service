@@ -37,27 +37,25 @@ func main() {
 	// Initialize database connection
 	database := db.Connect(cfg.DBURL)
 
+	authMiddleware := middleware.JWTAuth(cfg.JWTSecret)
 	// Initialize logger
 	appLogger := logger.SetupLogger(cfg.AppLogFile)
 
 	// Initialize repositories, services, handlers, and middleware
 	userRepo := repository.NewUserRepository(database)
 	txRepo := repository.NewTransactionRepository(database)
+	categoryRepo := repository.NewCategoryRepository(database)
 
 	authService := service.NewAuthService(userRepo, cfg.JWTSecret, logger.SetupLogger(cfg.ServiceLogFile))
-	txService := service.NewTransactionService(txRepo)
+	txService := service.NewTransactionService(txRepo, categoryRepo)
+	categoryService := service.NewCategoryService(categoryRepo, appLogger) // <-- ИСПРАВЛЕНО: appLogger.Logger (если appLogger - это ваша обертка) ИЛИ appLogger напрямую (если appLogger уже *logrus.Logger)
 
 	authHandler := handler.NewAuthHandler(authService, logger.SetupLogger(cfg.HandlerLogFile))
-
-	authMiddleware := middleware.JWTAuth(cfg.JWTSecret)
-
 	txHandler := handler.NewTransactionHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
-
 	statsHandler := handler.NewStatsHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
-
 	predictHandler := handler.NewPredictHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
-
 	timelineHandler := handler.NewTimelineHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
+	categoryHandler := handler.NewCategoryHandler(categoryService, appLogger)
 
 	// Set up Gin router
 	r := gin.Default()
@@ -82,8 +80,14 @@ func main() {
 	r.GET("/stats/summary", authMiddleware, statsHandler.Summary)
 	r.GET("/stats/categories", authMiddleware, statsHandler.ByCategory)
 	r.GET("/predict", authMiddleware, predictHandler.Predict)
-
 	r.GET("/stats/timeline", authMiddleware, timelineHandler.Timeline)
+
+	// Categories routes
+	r.POST("/categories", authMiddleware, categoryHandler.CreateCategory)
+	r.GET("/categories/:id", authMiddleware, categoryHandler.GetCategoryByID)
+	r.GET("/categories", authMiddleware, categoryHandler.ListCategories)
+	r.PUT("/categories/:id", authMiddleware, categoryHandler.UpdateCategory)
+	r.DELETE("/categories/:id", authMiddleware, categoryHandler.DeleteCategory)
 
 	//Start the server
 	if err := r.Run(":" + cfg.Port); err != nil {

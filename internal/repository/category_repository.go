@@ -10,6 +10,7 @@ import (
 // CategoryRepository определяет интерфейс для операций с категориями в базе данных.
 type CategoryRepository interface {
 	CreateCategory(category *model.Category) error
+	GetByID(id string) (model.Category, error)
 	GetCategoryByID(id uuid.UUID, userID uuid.UUID) (*model.Category, error)
 	GetCategoriesByUserID(userID uuid.UUID, categoryType string) ([]model.Category, error)
 	UpdateCategory(category *model.Category) error
@@ -29,6 +30,15 @@ func NewCategoryRepository(db *gorm.DB) CategoryRepository {
 // CreateCategory создает новую категорию в базе данных.
 func (r *categoryRepository) CreateCategory(category *model.Category) error {
 	return r.db.Create(category).Error
+}
+
+// GetByID реализует получение категории по её ID.
+func (r *categoryRepository) GetByID(id string) (model.Category, error) {
+	var category model.Category
+	if err := r.db.First(&category, "id = ?", id).Error; err != nil {
+		return model.Category{}, err
+	}
+	return category, nil
 }
 
 // GetCategoryByID получает категорию по её ID и ID пользователя.

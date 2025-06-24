@@ -50,8 +50,9 @@ func setupStatsRouter(t *testing.T, db *gorm.DB, lg *logrus.Logger) *gin.Engine 
 
 	userRepo := repository.NewUserRepository(db)
 	txRepo := repository.NewTransactionRepository(db)
+	categoryRepo := repository.NewCategoryRepository(db)
 	authSvc := service.NewAuthService(userRepo, cfg.JWTSecret, lg)
-	txSvc := service.NewTransactionService(txRepo)
+	txSvc := service.NewTransactionService(txRepo, categoryRepo)
 
 	authH := handler.NewAuthHandler(authSvc, lg)
 	txH := handler.NewTransactionHandler(txSvc, lg)
