@@ -2,6 +2,7 @@ package repository
 
 import (
 	"statistic_service/internal/model"
+
 	"gorm.io/gorm"
 )
 

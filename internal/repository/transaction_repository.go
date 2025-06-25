@@ -27,21 +27,24 @@ func NewTransactionRepository(db *gorm.DB) TransactionRepository {
 }
 
 func (r *transactionRepository) Create(tx *model.Transaction) error {
+	// GORM автоматически сохранит CategoryID, так как оно теперь поле модели Transaction
 	return r.db.Create(tx).Error
 }
 
 func (r *transactionRepository) GetByUser(userID string, from, to *time.Time, txType string) ([]model.Transaction, error) {
-	q := r.db.Where("user_id = ?", userID)
+	var transactions []model.Transaction
+	q := r.db.Preload("Category").Where("user_id = ?", userID) // <-- НОВОЕ: Preload("Category")
 	if txType != "" {
 		q = q.Where("type = ?", txType)
 	}
 	if from != nil {
-		q = q.Where("created_at >= ?", *from)
+		q = q.Where("date >= ?", *from) // Изменено на 'date' если это поле для фильтрации по дате
 	}
 	if to != nil {
-		q = q.Where("created_at <= ?", *to)
+		q = q.Where("date <= ?", *to) // Изменено на 'date' если это поле для фильтрации по дате
 	}
-	var transactions []model.Transaction
+	// Если ты хочешь фильтровать по CreatedAt, верни `created_at`
+	// Если `date` - это фактическая дата транзакции, то лучше использовать её.
 	if err := q.Find(&transactions).Error; err != nil {
 		return nil, err
 	}
@@ -50,13 +53,14 @@ func (r *transactionRepository) GetByUser(userID string, from, to *time.Time, tx
 
 func (r *transactionRepository) GetByID(id string) (*model.Transaction, error) {
 	var tx model.Transaction
-	if err := r.db.First(&tx, "id = ?", id).Error; err != nil {
+	if err := r.db.Preload("Category").First(&tx, "id = ?", id).Error; err != nil {
 		return nil, err
 	}
 	return &tx, nil
 }
 
 func (r *transactionRepository) Update(tx *model.Transaction) error {
+	// GORM Save обновляет все поля, включая CategoryID
 	return r.db.Save(tx).Error
 }
 
@@ -77,10 +81,10 @@ func (r *transactionRepository) Summary(userID string, from, to *time.Time) (flo
 		Where("user_id = ?", userID)
 
 	if from != nil {
-		q = q.Where("created_at >= ?", *from)
+		q = q.Where("date >= ?", *from) // Изменено на 'date'
 	}
 	if to != nil {
-		q = q.Where("created_at <= ?", *to)
+		q = q.Where("date <= ?", *to) // Изменено на 'date'
 	}
 
 	if err := q.Group("type").Scan(&rows).Error; err != nil {
@@ -98,20 +102,30 @@ func (r *transactionRepository) Summary(userID string, from, to *time.Time) (flo
 
 func (r *transactionRepository) ByCategory(userID string, from, to *time.Time) (map[string]float64, error) {
 	results := make(map[string]float64)
-	rows, err := r.db.Raw(
-		"SELECT category, SUM(amount) FROM transactions WHERE user_id = ? AND created_at BETWEEN ? AND ? GROUP BY category",
-		userID, from, to,
-	).Rows()
-	if err != nil {
+	type CategorySum struct {
+		CategoryName string  `gorm:"column:category_name"` // Имя столбца для результата
+		TotalAmount  float64 `gorm:"column:total_amount"`
+	}
+	var categorySums []CategorySum
+
+	query := r.db.Model(&model.Transaction{}).
+		Select("categories.name AS category_name, SUM(transactions.amount) AS total_amount").
+		Joins("JOIN categories ON transactions.category_id = categories.id"). // <-- НОВОЕ: INNER JOIN
+		Where("transactions.user_id = ?", userID)
+
+	if from != nil {
+		query = query.Where("transactions.date >= ?", *from) // Изменено на 'date'
+	}
+	if to != nil {
+		query = query.Where("transactions.date <= ?", *to) // Изменено на 'date'
+	}
+
+	if err := query.Group("categories.name").Scan(&categorySums).Error; err != nil { // <-- НОВОЕ: Группировка по categories.name
 		return nil, err
 	}
-	defer rows.Close()
 
-	for rows.Next() {
-		var category string
-		var sum float64
-		rows.Scan(&category, &sum)
-		results[category] = sum
+	for _, cs := range categorySums {
+		results[cs.CategoryName] = cs.TotalAmount
 	}
 	return results, nil
 }

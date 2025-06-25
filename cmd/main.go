@@ -1,7 +1,7 @@
 package main
 
 import (
-	_ "statistic_service/docs" // Import the generated docs
+	_ "statistic_service/docs"
 	"statistic_service/internal/config"
 	"statistic_service/internal/db"
 	"statistic_service/internal/handler"
@@ -37,27 +37,28 @@ func main() {
 	// Initialize database connection
 	database := db.Connect(cfg.DBURL)
 
+	authMiddleware := middleware.JWTAuth(cfg.JWTSecret)
 	// Initialize logger
 	appLogger := logger.SetupLogger(cfg.AppLogFile)
 
 	// Initialize repositories, services, handlers, and middleware
 	userRepo := repository.NewUserRepository(database)
 	txRepo := repository.NewTransactionRepository(database)
+	categoryRepo := repository.NewCategoryRepository(database)
+	walletRepo := repository.NewWalletRepository(database)
 
 	authService := service.NewAuthService(userRepo, cfg.JWTSecret, logger.SetupLogger(cfg.ServiceLogFile))
-	txService := service.NewTransactionService(txRepo)
+	txService := service.NewTransactionService(txRepo, categoryRepo)
+	categoryService := service.NewCategoryService(categoryRepo, appLogger) // <-- ИСПРАВЛЕНО: appLogger.Logger (если appLogger - это ваша обертка) ИЛИ appLogger напрямую (если appLogger уже *logrus.Logger)
+	walletService := service.NewWalletService(walletRepo, userRepo, txRepo, categoryRepo, appLogger)
 
 	authHandler := handler.NewAuthHandler(authService, logger.SetupLogger(cfg.HandlerLogFile))
-
-	authMiddleware := middleware.JWTAuth(cfg.JWTSecret)
-
 	txHandler := handler.NewTransactionHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
-
 	statsHandler := handler.NewStatsHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
-
 	predictHandler := handler.NewPredictHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
-
 	timelineHandler := handler.NewTimelineHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
+	categoryHandler := handler.NewCategoryHandler(categoryService, appLogger)
+	walletHandler := handler.NewWalletHandler(walletService, appLogger)
 
 	// Set up Gin router
 	r := gin.Default()
@@ -82,8 +83,31 @@ func main() {
 	r.GET("/stats/summary", authMiddleware, statsHandler.Summary)
 	r.GET("/stats/categories", authMiddleware, statsHandler.ByCategory)
 	r.GET("/predict", authMiddleware, predictHandler.Predict)
-
 	r.GET("/stats/timeline", authMiddleware, timelineHandler.Timeline)
+
+	// Categories routes
+	r.POST("/categories", authMiddleware, categoryHandler.CreateCategory)
+	r.GET("/categories/:id", authMiddleware, categoryHandler.GetCategoryByID)
+	r.GET("/categories", authMiddleware, categoryHandler.ListCategories)
+	r.PUT("/categories/:id", authMiddleware, categoryHandler.UpdateCategory)
+	r.DELETE("/categories/:id", authMiddleware, categoryHandler.DeleteCategory)
+
+	r.POST("/wallets", authMiddleware, walletHandler.Create)        // Создать кошелек
+	r.GET("/wallets", authMiddleware, walletHandler.List)           // Список своих кошельков
+	r.GET("/wallets/:id", authMiddleware, walletHandler.GetByID)    // Информация о кошельке
+	r.PUT("/wallets/:id", authMiddleware, walletHandler.UpdateName) // Обновить имя
+	r.DELETE("/wallets/:id", authMiddleware, walletHandler.Delete)  // Удалить кошелек
+
+	// Управление участниками
+	r.GET("/wallets/:id/members", authMiddleware, walletHandler.GetMembers)
+	r.POST("/wallets/:id/invite", authMiddleware, walletHandler.InviteMember)
+	r.DELETE("/wallets/:id/members/:userID", authMiddleware, walletHandler.RemoveMember)
+	r.PUT("/wallets/:id/members/:userID/role", authMiddleware, walletHandler.UpdateMemberRole)
+
+	// Транзакции внутри кошелька
+	r.GET("/wallets/:id/transactions", authMiddleware, walletHandler.GetTransactions)
+	r.POST("/wallets/:id/transactions", authMiddleware, walletHandler.CreateTransaction)
+	// ... PUT и DELETE для транзакций кошелька
 
 	//Start the server
 	if err := r.Run(":" + cfg.Port); err != nil {

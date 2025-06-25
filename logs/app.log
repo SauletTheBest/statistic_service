@@ -1,0 +1,22 @@
+{"from":null,"level":"info","msg":"Fetching summary stats","time":"2025-06-13T14:12:46+05:00","to":null,"userID":"10fff55c-a9ca-4220-adb3-edac989e13e1"}
+{"expense":323,"income":1172,"level":"info","msg":"Summary stats retrieved successfully","time":"2025-06-13T14:12:46+05:00"}
+{"from":"2025-01-01T00:00:00Z","level":"info","msg":"Fetching stats by category","time":"2025-06-13T14:13:40+05:00","to":"2025-12-31T23:59:59Z","userID":"10fff55c-a9ca-4220-adb3-edac989e13e1"}
+{"categoriesCount":3,"level":"info","msg":"Stats by category retrieved successfully","time":"2025-06-13T14:13:40+05:00"}
+{"from":null,"level":"info","msg":"Listing transactions","time":"2025-06-13T14:13:46+05:00","to":null,"type":"","userID":"27d6cf1f-ca22-4114-a24f-99018e7c9fe3"}
+{"count":1,"level":"info","msg":"Transactions listed successfully","time":"2025-06-13T14:13:46+05:00"}
+{"from":null,"level":"info","msg":"Listing transactions","time":"2025-06-13T14:13:56+05:00","to":null,"type":"","userID":"27d6cf1f-ca22-4114-a24f-99018e7c9fe3"}
+{"count":1,"level":"info","msg":"Transactions listed successfully","time":"2025-06-13T14:13:56+05:00"}
+{"level":"info","msg":"Updating transaction","time":"2025-06-13T14:14:02+05:00","transactionID":"1b55a422-8352-4cfd-a6a3-bd90d406fa2f","userID":"10fff55c-a9ca-4220-adb3-edac989e13e1"}
+{"error":"record not found","level":"error","msg":"Failed to update transaction","time":"2025-06-13T14:14:02+05:00"}
+{"level":"info","msg":"Updating transaction","time":"2025-06-13T14:16:56+05:00","transactionID":"0db86cb5-6ed3-4704-8f3f-b13da5f3df49","userID":"10fff55c-a9ca-4220-adb3-edac989e13e1"}
+{"level":"info","msg":"Transaction updated successfully","time":"2025-06-13T14:16:56+05:00"}
+{"from":null,"level":"info","msg":"Listing transactions","time":"2025-06-13T14:17:00+05:00","to":null,"type":"","userID":"27d6cf1f-ca22-4114-a24f-99018e7c9fe3"}
+{"count":1,"level":"info","msg":"Transactions listed successfully","time":"2025-06-13T14:17:00+05:00"}
+{"from":null,"level":"info","msg":"Fetching summary stats","time":"2025-06-13T14:17:13+05:00","to":null,"userID":"10fff55c-a9ca-4220-adb3-edac989e13e1"}
+{"expense":323,"income":1172,"level":"info","msg":"Summary stats retrieved successfully","time":"2025-06-13T14:17:13+05:00"}
+{"from":"2025-01-01T00:00:00Z","level":"info","msg":"Fetching stats by category","time":"2025-06-13T14:17:17+05:00","to":"2025-12-31T23:59:59Z","userID":"10fff55c-a9ca-4220-adb3-edac989e13e1"}
+{"categoriesCount":3,"level":"info","msg":"Stats by category retrieved successfully","time":"2025-06-13T14:17:17+05:00"}
+{"level":"fatal","msg":"Failed to start server: listen tcp :8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted.","time":"2025-06-15T22:57:52+05:00"}
+{"level":"fatal","msg":"Failed to start server: listen tcp :8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted.","time":"2025-06-15T23:18:12+05:00"}
+{"level":"fatal","msg":"Failed to start server: listen tcp :8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted.","time":"2025-06-15T23:20:40+05:00"}
+{"level":"fatal","msg":"Failed to start server: listen tcp :8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted.","time":"2025-06-16T12:45:07+05:00"}

@@ -4,3 +4,18 @@
 {"level":"info","msg":"User profile retrieved successfully","time":"2025-06-12T12:23:00+05:00"}
 {"level":"info","msg":"Token refreshed successfully","time":"2025-06-12T12:23:19+05:00"}
 {"level":"info","msg":"Token refreshed successfully","time":"2025-06-12T12:24:03+05:00"}
+{"error":"Key: 'authRequest.Email' Error:Field validation for 'Email' failed on the 'email' tag","level":"warning","msg":"Validation failed","time":"2025-06-18T05:08:39Z"}
+{"error":"Key: 'authRequest.Email' Error:Field validation for 'Email' failed on the 'email' tag","level":"warning","msg":"Validation failed","time":"2025-06-18T05:08:40Z"}
+{"error":"invalid email or password","level":"warning","msg":"Login failed","time":"2025-06-18T06:13:12Z"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-18T06:13:53Z"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-18T06:14:00Z"}
+{"amount":1506,"level":"info","msg":"Creating transaction","time":"2025-06-18T06:22:03Z","type":"income","userID":"0e962b2c-818b-46db-af12-04b5e3984de9"}
+{"level":"info","msg":"Transaction created successfully","time":"2025-06-18T06:22:03Z"}
+{"amount":1506,"level":"info","msg":"Creating transaction","time":"2025-06-18T06:22:04Z","type":"income","userID":"0e962b2c-818b-46db-af12-04b5e3984de9"}
+{"level":"info","msg":"Transaction created successfully","time":"2025-06-18T06:22:04Z"}
+{"error":"Key: 'authRequest.Email' Error:Field validation for 'Email' failed on the 'email' tag","level":"warning","msg":"Validation failed","time":"2025-06-18T09:04:48Z"}
+{"error":"invalid email or password","level":"warning","msg":"Login failed","time":"2025-06-18T09:07:25Z"}
+{"level":"info","msg":"User registered successfully","time":"2025-06-18T09:07:32Z"}
+{"level":"info","msg":"User logged in successfully","time":"2025-06-18T09:07:36Z"}
+{"level":"info","msg":"Token refreshed successfully","time":"2025-06-18T09:07:50Z"}
+{"level":"info","msg":"Token refreshed successfully","time":"2025-06-18T09:10:02Z"}

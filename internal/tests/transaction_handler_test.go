@@ -24,7 +24,7 @@ import (
 )
 
 func setupTxDB(t *testing.T) *gorm.DB {
-	dbURL := "postgres://postgres:myStrongTestPassword123@localhost:5432/mydatabase?sslmode=disable"
+	dbURL := "postgres://postgres:ernar2005@localhost:5432/statistic_service?sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{})
 	if err != nil {
 		t.Fatalf("connect tx test db: %v", err)
@@ -50,8 +50,9 @@ func setupTxRouter(t *testing.T, db *gorm.DB, lg *logrus.Logger) *gin.Engine {
 
 	userRepo := repository.NewUserRepository(db)
 	txRepo := repository.NewTransactionRepository(db)
+	categoryRepo := repository.NewCategoryRepository(db)
 	authSvc := service.NewAuthService(userRepo, cfg.JWTSecret, lg)
-	txSvc := service.NewTransactionService(txRepo)
+	txSvc := service.NewTransactionService(txRepo, categoryRepo)
 
 	authH := handler.NewAuthHandler(authSvc, lg)
 	txH := handler.NewTransactionHandler(txSvc, lg)
