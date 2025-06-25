@@ -10,8 +10,7 @@ type Wallet struct {
 	CreatedAt time.Time `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt time.Time `gorm:"autoUpdateTime" json:"updated_at"`
 
-	// Связь с WalletMember: кошелек может иметь много участников
-	Members []WalletMember `gorm:"foreignKey:WalletID;constraint:OnDelete:CASCADE;" json:"members,omitempty"`
-	// Связь с Transaction: кошелек может иметь много транзакций
-	Transactions []Transaction `gorm:"foreignKey:WalletID;constraint:OnDelete:CASCADE;" json:"transactions,omitempty"`
+	// Связи
+	Members      []WalletMember `gorm:"foreignKey:WalletID;constraint:OnDelete:CASCADE;" json:"members,omitempty"`
+	Transactions []Transaction  `gorm:"foreignKey:WalletID;constraint:OnDelete:CASCADE;" json:"transactions,omitempty"`
 }

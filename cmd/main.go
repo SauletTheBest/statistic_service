@@ -1,12 +1,11 @@
 package main
 
 import (
-	_ "statistic_service/docs" // Import the generated docs
-
+	_ "statistic_service/docs"
 	"statistic_service/internal/config"
 	"statistic_service/internal/db"
 	"statistic_service/internal/handler"
-	"statistic_service/internal/logger" // <-- Убедись, что этот импорт есть
+	"statistic_service/internal/logger"
 	"statistic_service/internal/middleware"
 	"statistic_service/internal/repository"
 	"statistic_service/internal/service"
@@ -17,7 +16,6 @@ import (
 )
 
 // Package main provides the entry point for the Statistic Service API.
-
 // @title Statistic Service API
 // @version 1.0
 // @description API for user authentication and profile management.
@@ -31,106 +29,88 @@ import (
 // @securityDefinitions.apikey BearerAuth
 // @in header
 // @name Authorization
-// @description Type "Bearer" + a space + your token
+// @description JWT Authorization header using the Bearer scheme. Example: "Bearer {token}"
 func main() {
-	// Инициализация логгера
-	// <-- ИСПРАВЛЕНО: Используем NewLogger(), если у тебя есть SetupLogger, проверь, что он не конфликтует.
-	appLogger := logger.NewLogger()
-	appLogger.Info("Starting Statistic Service API")
 
-	// Загрузка конфигурации
+	// Load configuration
 	cfg := config.LoadConfig()
+	// Initialize database connection
+	database := db.Connect(cfg.DBURL)
 
-	// Инициализация базы данных
-	database, err := db.InitDB(cfg, appLogger)
-	if err != nil {
-		appLogger.Fatalf("Failed to initialize database: %v", err)
-	}
+	authMiddleware := middleware.JWTAuth(cfg.JWTSecret)
+	// Initialize logger
+	appLogger := logger.SetupLogger(cfg.AppLogFile)
 
-	// Выполнение миграций
-	if err := db.MigrateDB(database, appLogger); err != nil {
-		appLogger.Fatalf("Failed to run database migrations: %v", err)
-	}
-
-	// Инициализация репозиториев
+	// Initialize repositories, services, handlers, and middleware
 	userRepo := repository.NewUserRepository(database)
+	txRepo := repository.NewTransactionRepository(database)
 	categoryRepo := repository.NewCategoryRepository(database)
-	transactionRepo := repository.NewTransactionRepository(database)
-	// walletRepo := repository.NewWalletRepository(database) // Пока закомментируем, т.к. репозиторий еще не создан
+	walletRepo := repository.NewWalletRepository(database)
 
-	// Инициализация сервисов
-	authService := service.NewAuthService(userRepo, cfg.JwtSecret, appLogger)
-	userService := service.NewUserService(userRepo, appLogger) // <-- ИСПРАВЛЕНО: Раскомментировать и правильно инициализировать
-	categoryService := service.NewCategoryService(categoryRepo, appLogger)
-	// <-- ИСПРАВЛЕНО: service.NewTransactionService теперь должен принимать логгер
-	transactionService := service.NewTransactionService(transactionRepo, categoryRepo, appLogger)
-	// walletService := service.NewWalletService(walletRepo, userRepo, appLogger) // Пока закомментируем
+	authService := service.NewAuthService(userRepo, cfg.JWTSecret, logger.SetupLogger(cfg.ServiceLogFile))
+	txService := service.NewTransactionService(txRepo, categoryRepo)
+	categoryService := service.NewCategoryService(categoryRepo, appLogger) // <-- ИСПРАВЛЕНО: appLogger.Logger (если appLogger - это ваша обертка) ИЛИ appLogger напрямую (если appLogger уже *logrus.Logger)
+	walletService := service.NewWalletService(walletRepo, userRepo, txRepo, categoryRepo, appLogger)
 
-	// Инициализация хендлеров
-	// <-- ИСПРАВЛЕНО: handler.NewAuthHandler теперь принимает userService и appLogger
-	authHandler := handler.NewAuthHandler(authService, userService, appLogger)
-	transactionHandler := handler.NewTransactionHandler(transactionService, appLogger)
-	statsHandler := handler.NewStatsHandler(transactionService, appLogger)
-	predictHandler := handler.NewPredictHandler(transactionService, appLogger)
-	timelineHandler := handler.NewTimelineHandler(transactionService, appLogger)
+	authHandler := handler.NewAuthHandler(authService, logger.SetupLogger(cfg.HandlerLogFile))
+	txHandler := handler.NewTransactionHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
+	statsHandler := handler.NewStatsHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
+	predictHandler := handler.NewPredictHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
+	timelineHandler := handler.NewTimelineHandler(txService, logger.SetupLogger(cfg.HandlerLogFile))
 	categoryHandler := handler.NewCategoryHandler(categoryService, appLogger)
-	// walletHandler := handler.NewWalletHandler(walletService, appLogger) // Пока закомментируем
+	walletHandler := handler.NewWalletHandler(walletService, appLogger)
 
-	// Настройка Gin
+	// Set up Gin router
 	r := gin.Default()
-	// <-- ИСПРАВЛЕНО: middleware.CORSMiddleware
-	r.Use(middleware.CORSMiddleware())
 
-	// Группы роутов
-	// Auth routes
+	// Auth
 	r.POST("/register", authHandler.Register)
 	r.POST("/login", authHandler.Login)
 	r.POST("/refresh", authHandler.Refresh)
+	// Protected
+	r.GET("/me", authMiddleware, authHandler.GetProfile)
 
-	// Swagger UI
+	// Swagger routes
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	// Protected routes
-	protected := r.Group("/")
-	// <-- ИСПРАВЛЕНО: middleware.AuthMiddleware
-	protected.Use(middleware.AuthMiddleware(cfg.JwtSecret))
-	{
-		protected.GET("/me", authHandler.GetProfile)
+	// Transactions
+	r.POST("/transactions", authMiddleware, txHandler.Create)
+	r.GET("/transactions", authMiddleware, txHandler.List)
+	r.PUT("/transactions/:id", authMiddleware, txHandler.Update)
+	r.DELETE("/transactions/:id", authMiddleware, txHandler.Delete)
 
-		// Transaction routes
-		protected.POST("/transactions", transactionHandler.Create)
-		protected.GET("/transactions", transactionHandler.List)
-		protected.PUT("/transactions/:id", transactionHandler.Update)
-		protected.DELETE("/transactions/:id", transactionHandler.Delete)
+	// Statistics
+	r.GET("/stats/summary", authMiddleware, statsHandler.Summary)
+	r.GET("/stats/categories", authMiddleware, statsHandler.ByCategory)
+	r.GET("/predict", authMiddleware, predictHandler.Predict)
+	r.GET("/stats/timeline", authMiddleware, timelineHandler.Timeline)
 
-		// Category routes
-		protected.POST("/categories", categoryHandler.CreateCategory)
-		protected.GET("/categories/:id", categoryHandler.GetCategoryByID)
-		protected.GET("/categories", categoryHandler.ListCategories)
-		protected.PUT("/categories/:id", categoryHandler.UpdateCategory)
-		protected.DELETE("/categories/:id", categoryHandler.DeleteCategory)
+	// Categories routes
+	r.POST("/categories", authMiddleware, categoryHandler.CreateCategory)
+	r.GET("/categories/:id", authMiddleware, categoryHandler.GetCategoryByID)
+	r.GET("/categories", authMiddleware, categoryHandler.ListCategories)
+	r.PUT("/categories/:id", authMiddleware, categoryHandler.UpdateCategory)
+	r.DELETE("/categories/:id", authMiddleware, categoryHandler.DeleteCategory)
 
-		// Statistics routes
-		protected.GET("/stats/summary", statsHandler.Summary)
-		protected.GET("/stats/categories", statsHandler.ByCategory)
-		protected.GET("/stats/timeline", timelineHandler.Timeline)
-		protected.GET("/predict", predictHandler.Predict)
+	r.POST("/wallets", authMiddleware, walletHandler.Create)        // Создать кошелек
+	r.GET("/wallets", authMiddleware, walletHandler.List)           // Список своих кошельков
+	r.GET("/wallets/:id", authMiddleware, walletHandler.GetByID)    // Информация о кошельке
+	r.PUT("/wallets/:id", authMiddleware, walletHandler.UpdateName) // Обновить имя
+	r.DELETE("/wallets/:id", authMiddleware, walletHandler.Delete)  // Удалить кошелек
 
-		// Wallet routes (пока закомментированы, будут добавлены позже)
-		// protected.POST("/wallets", walletHandler.Create)
-		// protected.PUT("/wallets/Update", walletHandler.UpdateName)
-		// protected.DELETE("/wallets/delete", walletHandler.Delete)
-		// protected.POST("/wallets/:id/invite", walletHandler.Invite)
-		// protected.DELETE("/wallets/:id/invite", walletHandler.DeleteMember) // Изменил имя, чтобы не было конфликта с walletHandler.Delete
-		// protected.GET("/wallets/:id/transactions", walletHandler.GetTransactions)
-		// protected.GET("/wallets/:id/members", walletHandler.GetMembers)
-		// protected.POST("/wallets/:id/transactions", walletHandler.CreateTransaction)
-		// protected.PUT("/wallets/:id/transactions/:transaction_id", walletHandler.UpdateTransaction) // Изменил роут
-		// protected.DELETE("/wallets/:id/transactions/:transaction_id", walletHandler.DeleteTransaction) // Изменил роут
-	}
+	// Управление участниками
+	r.GET("/wallets/:id/members", authMiddleware, walletHandler.GetMembers)
+	r.POST("/wallets/:id/invite", authMiddleware, walletHandler.InviteMember)
+	r.DELETE("/wallets/:id/members/:userID", authMiddleware, walletHandler.RemoveMember)
+	r.PUT("/wallets/:id/members/:userID/role", authMiddleware, walletHandler.UpdateMemberRole)
 
-	// Запуск сервера
-	if err := r.Run(":" + cfg.AppPort); err != nil {
-		appLogger.Fatalf("Failed to run server: %v", err)
+	// Транзакции внутри кошелька
+	r.GET("/wallets/:id/transactions", authMiddleware, walletHandler.GetTransactions)
+	r.POST("/wallets/:id/transactions", authMiddleware, walletHandler.CreateTransaction)
+	// ... PUT и DELETE для транзакций кошелька
+
+	//Start the server
+	if err := r.Run(":" + cfg.Port); err != nil {
+		appLogger.Fatalf("Failed to start server: %v", err)
 	}
 }

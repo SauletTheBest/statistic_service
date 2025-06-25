@@ -3,11 +3,12 @@ package service
 import (
 	"errors"
 	"regexp"
-	"time"
 	"statistic_service/internal/model"
 	"statistic_service/internal/repository"
 	"statistic_service/pkg/jwt"
 	"statistic_service/pkg/utils"
+	"time"
+
 	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/crypto/bcrypt"
