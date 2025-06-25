@@ -2,13 +2,14 @@ package repository
 
 import (
 	"statistic_service/internal/model"
+
 	"gorm.io/gorm"
 )
 
 type UserRepository interface {
 	Create(user *model.User) error
 	GetByEmail(email string) (*model.User, error)
-	GetByID(id string) (*model.User, error)
+	GetUserByID(id string) (*model.User, error)
 	CreateRefreshToken(token *model.RefreshToken) error
 	GetRefreshToken(token string) (*model.RefreshToken, error)
 	DeleteRefreshToken(token string) error
@@ -32,9 +33,12 @@ func (r *userRepository) GetByEmail(email string) (*model.User, error) {
 	return &user, err
 }
 
-func (r *userRepository) GetByID(id string) (*model.User, error) {
+func (r *UserRepository) GetUserByID(userID string) (*model.User, error) {
 	var user model.User
-	err := r.db.First(&user, "id = ?", id).Error
+	err := r.db.Where("id = ?", userID).First(&user).Error
+	if err == gorm.ErrRecordNotFound {
+		return nil, nil // Пользователь не найден
+	}
 	return &user, err
 }
 
